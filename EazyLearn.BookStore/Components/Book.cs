@@ -52,6 +52,7 @@ namespace EazyLearn.BookStore.Components
             set;
         }
 
+
         /// <summary>
         /// gets or set the category id of a book
         /// </summary>
@@ -235,7 +236,7 @@ namespace EazyLearn.BookStore.Components
             {
                 connectionObj.Close();
             }
-            return numberOfRowsAffected;
+            return numberOfRowsAffected; //return the number of rows affected
         }
         #endregion
 
