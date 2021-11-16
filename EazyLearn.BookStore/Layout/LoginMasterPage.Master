@@ -1,0 +1,83 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="LoginMasterPage.master.cs" Inherits="EazyLearn.BookStore.Layout.LoginMasterPage" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Login</title>
+	<link
+		href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet" />
+	<link href="../Styles/style.css" rel="stylesheet" type="text/css" />
+
+
+</head>
+<body>
+	<form id="form1" runat="server">
+		<div class="tr_login">
+			<div class="tr_loginmain">
+				<h1>
+					<img src="../Styles/images/logo.png" />
+				</h1>
+				<ul>
+					<li class="username"></li>
+					<li>
+						<input
+							class="inputusername"
+							data-val="true"
+							data-val-required=" "
+							id="txtUsername"
+							name="Username"
+							placeholder="Username"
+							type="text"
+							value=""
+							runat="server" /><br />
+					</li>
+					<li>
+						<input
+							class="inputpassword"
+							data-val="true"
+							data-val-required=" "
+							id="txtPassword"
+							name="Password"
+							placeholder="Password"
+							type="password"
+							value=""
+							runat="server" /><br />
+					</li>
+					<li class="tr_lgnbtn">
+						<%--<input type="button" value="LOGIN" id="btnLogin" runat="server" />--%>
+						<asp:Button ID="btnLogin" runat="server" Text="Login" />
+						&nbsp;</li>
+
+					<li class="forgot_password">
+						<a href="#">Forgot Password</a>
+					</li>
+
+					<li>
+						<div class="validation_area">
+							<a href="../Registration.aspx">New User ? Register Here</a>
+
+						</div>
+					</li>
+				</ul>
+				<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+				</asp:ContentPlaceHolder>
+
+
+
+
+			</div>
+		</div>
+
+		<!--tr_login-->
+
+		<p class="login_copy">
+			<a href="#">&copy 2016. All rights reserved.</a>
+		</p>
+
+	</form>
+</body>
+</html>

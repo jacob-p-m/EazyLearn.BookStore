@@ -1,0 +1,98 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminInnerPage.Master.cs" Inherits="EazyLearn.BookStore.Store" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+	<title>Admin Home</title>
+	<%--    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>--%>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<link href="../Styles/style.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".toggle").click(function () {
+				$(".sidebar").toggleClass("main");
+				$(".toggle_ico_hide").toggleClass("main");
+				$(".sidebar ul li a").toggleClass("main");
+				$(".tr_right_content").toggleClass("main");
+
+			});
+		});
+	</script>
+
+</head>
+<body>
+	<form id="form1" runat="server">
+		<header>
+			<a href="#" class="logo"></a>
+			<span class="logout_ico"></span>
+			<span class="home_ico"></span>
+			<span class="user_ico">
+				<p>
+					<asp:Label ID="UserHeaderName" runat="server" Text=""></asp:Label>
+				</p>
+			</span>
+		</header>
+		<!--  <span class="toggle"></span>
+-->
+		<div class="sidebar">
+
+			<ul>
+				<li class="weekly_performance_ico"><a href="../Admin/BookEdit.aspx"><span class="toggle_ico_hide">Book Management</span></a>
+
+					<ul class="easy_submenu">
+
+						<li><a href="../Admin/BookAdd.aspx">Add Book </a></li>
+						<li><a href="#">Specials</a></li>
+
+					</ul>
+
+				</li>
+				<li class="weekly_performance_ico"><a href="~/Admin/CategoryManagement.aspx" runat="server" id="lnkCategory">
+					<span class="toggle_ico_hide">Category Management</span>
+				</a>
+
+				</li>
+
+				<asp:GridView ID="gvCategoryList" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="6" GridLines="None" ShowHeader="False">
+					<AlternatingRowStyle ForeColor="Black" VerticalAlign="Middle" />
+					<Columns>
+						<asp:BoundField DataField="Category Name" ShowHeader="False" />
+					</Columns>
+					<EmptyDataTemplate>
+						No Categories
+					</EmptyDataTemplate>
+				</asp:GridView>
+
+				<li class="weekly_performance_ico"><a href="#"><span class="toggle_ico_hide">Search</span></a>
+
+					<input type="text">
+					<button id="btn-search">Go</button>
+
+				</li>
+			</ul>
+		</div>
+		<!--sidebar-->
+		<div class="tr_right_content">
+
+			<div class="tr_users_form_wrapper">
+				<h3>Welcome to J-Store</h3>
+				<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+				</asp:ContentPlaceHolder>
+
+			</div>
+			<!--tr_users_form_wrapper-->
+
+		</div>
+		<!--tr_roght_content-->
+
+	</form>
+
+</body>
+</html>
