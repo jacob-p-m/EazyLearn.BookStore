@@ -140,7 +140,7 @@ namespace EazyLearn.BookStore.Components
                 cmd.Parameters.Add("@price", SqlDbType.Decimal).Value = this.Price;
                 cmd.Parameters.Add("@specialpricestatus", SqlDbType.Bit).Value = this.SpecialPriceStatus;
                 cmd.Parameters.Add("@specialprice", SqlDbType.Decimal).Value = this.SpecialPrice;
-                cmd.Parameters.Add("@descripton", SqlDbType.VarChar).Value = this.Description;
+                cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = this.Description;
 
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();
