@@ -190,6 +190,73 @@ namespace EazyLearn.BookStore.Components
 
             return dt;
         }
+
+        /// <summary>
+        /// get all book details having special price
+        /// </summary>
+        /// <returns>dataTable </returns>
+        public DataTable GetAllBookWithSpecialPriceDetails()
+        {
+            SqlDataAdapter dataAdapterCategory;
+
+            string getQuery = "procBookSpecialsSelect";
+            SqlConnection sqlConnection = null;
+            DataTable dt = new DataTable();
+            try
+            {
+                sqlConnection = DatabaseConnection.GetDatbaseConnection();
+                sqlConnection.Open();
+
+                dataAdapterCategory = new SqlDataAdapter(getQuery, sqlConnection);
+                dataAdapterCategory.Fill(dt);
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return dt;
+        }
+
+        /// <summary>
+        /// get all book details except category given the id of book
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>dataTable </returns>
+        public DataTable GetAllBookDetailsById(int id)
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+
+
+            SqlConnection sqlConnection = null;
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                sqlConnection = DatabaseConnection.GetDatbaseConnection();
+                sqlConnection.Open();
+
+                cmd = new SqlCommand("procBookByIdDetailsSelect", sqlConnection);
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return dt;
+        }
         #endregion
 
         #region Update Methods
@@ -222,7 +289,7 @@ namespace EazyLearn.BookStore.Components
                 cmd.Parameters.Add("@price", SqlDbType.Decimal).Value = this.Price;
                 cmd.Parameters.Add("@specialpricestatus", SqlDbType.Bit).Value = this.SpecialPriceStatus;
                 cmd.Parameters.Add("@specialprice", SqlDbType.Decimal).Value = this.SpecialPrice;
-                cmd.Parameters.Add("@descripton", SqlDbType.VarChar).Value = this.Description;
+                cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = this.Description;
 
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();

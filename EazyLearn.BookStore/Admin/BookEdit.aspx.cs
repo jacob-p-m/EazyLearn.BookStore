@@ -14,10 +14,29 @@ namespace EazyLearn.BookStore.Admin
         {
             if (!IsPostBack)
             {
-                Book objBook = new Book();
-                gvBookList.DataSource = objBook.GetAllBookDetails();
-                gvBookList.DataBind();
+                Fill();
             }
+        }
+
+        void Fill()
+        {
+            Book objBook = new Book();
+            gvBookList.DataSource = objBook.GetAllBookDetails();
+            gvBookList.DataBind();
+        }
+
+
+        protected void gvBookList_RowEditing1(object sender, GridViewEditEventArgs e)
+        {
+            int bookId = Convert.ToInt32(gvBookList.Rows[e.NewEditIndex].Cells[0].Text);
+            Response.Redirect("~/Admin/BookDetailsEdit.aspx?bookId=" + bookId);
+        }
+
+        protected void gvBookList_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            Fill();
+            gvBookList.PageIndex = e.NewPageIndex;
+            gvBookList.DataBind();
         }
     }
 }

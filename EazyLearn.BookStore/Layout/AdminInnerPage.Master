@@ -30,12 +30,13 @@
 <body>
 	<form id="form1" runat="server">
 		<header>
-			<a href="#" class="logo"></a>
-			<span class="logout_ico"></span>
-			<span class="home_ico"></span>
+			<a href="" class="logo"></a>
+			<a href="../Admin/Login.aspx" id="btnAdminLogout" runat="server"><span class="logout_ico"></span></a>
+
+			<a href="../Admin/Home.aspx"><span class="home_ico"></span></a>
 			<span class="user_ico">
 				<p>
-					<asp:Label ID="UserHeaderName" runat="server" Text=""></asp:Label>
+					<asp:Label ID="lblAdminNameStatus" runat="server" Text=""></asp:Label>
 				</p>
 			</span>
 		</header>
@@ -49,7 +50,7 @@
 					<ul class="easy_submenu">
 
 						<li><a href="../Admin/BookAdd.aspx">Add Book </a></li>
-						<li><a href="#">Specials</a></li>
+						<li><a href="../Admin/Specials.aspx">Specials</a></li>
 
 					</ul>
 

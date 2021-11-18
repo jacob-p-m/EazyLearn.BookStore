@@ -27,11 +27,14 @@
 <body>
 	<form id="form1" runat="server">
 		<header>
-			<a href="#" class="logo"></a>
-			<span class="logout_ico"></span>
-			<span class="home_ico"></span>
+			<a href="" class="logo"></a>
+			<a href="Login.aspx" id="btnUserLogout" runat="server"><span class="logout_ico"></span></a>
+
+			<a href="Home.aspx"><span class="home_ico"></span></a>
 			<span class="user_ico">
-				<p>John Smith</p>
+				<p>
+					<asp:Label ID="lblUserEmailStatus" runat="server" Text=""></asp:Label>
+				</p>
 			</span>
 		</header>
 		<!--  <span class="toggle"></span>

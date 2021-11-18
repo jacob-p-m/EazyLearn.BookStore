@@ -17,6 +17,16 @@ namespace EazyLearn.BookStore
             gvCategoryList.DataSource = objCategory.GetAllCategoryDetails();
             gvCategoryList.DataBind();
 
+            if (Session["AdminName"] != null)
+            {
+                lblAdminNameStatus.Text = Session["AdminName"].ToString();
+            }
+            else
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+
+            btnAdminLogout.ServerClick += new EventHandler(LogoutButton_Click);
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -24,13 +34,12 @@ namespace EazyLearn.BookStore
 
         }
 
-        public Label UserHeader
+        void LogoutButton_Click(object sender, EventArgs e)
         {
-            get
-            {
-                return this.UserHeaderName;
-            }
-
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Login.aspx");
         }
+
     }
 }

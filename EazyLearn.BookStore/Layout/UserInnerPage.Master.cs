@@ -17,6 +17,12 @@ namespace EazyLearn.BookStore.Layout
             gvCategoryList.DataSource = objCategory.GetAllCategoryDetails();
             gvCategoryList.DataBind();
 
+            if (Session["UserEmail"] != null)
+            {
+                lblUserEmailStatus.Text = Session["UserEmail"].ToString();
+            }
+
+            btnUserLogout.ServerClick += new EventHandler(ButtonLogout_Click);
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -24,7 +30,12 @@ namespace EazyLearn.BookStore.Layout
 
         }
 
-
+        void ButtonLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("~/Login.aspx");
+        }
 
     }
 }

@@ -106,10 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\BookAdd.aspx" />
+    <Content Include="Admin\BookDetailsEdit.aspx" />
     <Content Include="Admin\BookEdit.aspx" />
     <Content Include="Admin\Home.aspx" />
     <Content Include="Admin\CategoryManagement.aspx" />
     <Content Include="Admin\Login.aspx" />
+    <Content Include="Admin\Specials.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -200,6 +202,13 @@
     <Compile Include="Admin\BookAdd.aspx.designer.cs">
       <DependentUpon>BookAdd.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\BookDetailsEdit.aspx.cs">
+      <DependentUpon>BookDetailsEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\BookDetailsEdit.aspx.designer.cs">
+      <DependentUpon>BookDetailsEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\BookEdit.aspx.cs">
       <DependentUpon>BookEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -227,6 +236,13 @@
     </Compile>
     <Compile Include="Admin\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Specials.aspx.cs">
+      <DependentUpon>Specials.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Specials.aspx.designer.cs">
+      <DependentUpon>Specials.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

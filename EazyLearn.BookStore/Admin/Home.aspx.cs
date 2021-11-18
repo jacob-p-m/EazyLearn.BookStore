@@ -11,11 +11,8 @@ namespace EazyLearn.BookStore.Admin_Pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string username = Context.Items["Username"].ToString();
-            welcomemessage.Text = $"Welcome {username}";
-
-            Label lblUserHeader = (Label)Master.FindControl("UserHeaderName");
-            lblUserHeader.Text = username;
+            string adminName = Session["AdminName"].ToString();
+            lblWelcomeMessage.Text = "Welcome " + adminName;
         }
     }
 }

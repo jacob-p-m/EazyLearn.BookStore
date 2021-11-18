@@ -44,6 +44,7 @@ namespace EazyLearn.BookStore
                     realPassword = dt.Rows[0].ItemArray[0].ToString();
                     if (realPassword == password)
                     {
+                        Session["UserEmail"] = username.ToString();
                         Response.Redirect("~/Home.aspx");
                     }
                     else
@@ -57,6 +58,11 @@ namespace EazyLearn.BookStore
                 }
             }
 
+        }
+
+        protected void lblAdminLogin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Admin/Login.aspx");
         }
     }
 }

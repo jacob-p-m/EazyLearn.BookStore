@@ -11,7 +11,8 @@ namespace EazyLearn.BookStore
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string userEmail = Session["UserEmail"].ToString();
+            lblWelcomeMessage.Text = "Welcome " + userEmail;
         }
     }
 }

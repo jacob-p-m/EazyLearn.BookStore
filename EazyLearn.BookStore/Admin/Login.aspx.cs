@@ -44,8 +44,8 @@ namespace EazyLearn.BookStore.Admin
                     realPassword = dtAdmin.Rows[0].ItemArray[0].ToString();
                     if (realPassword == password)
                     {
-                        Context.Items["Username"] = username;
-                        Server.Transfer("~/Admin/Home.aspx");
+                        Session["AdminName"] = username;
+                        Response.Redirect("~/Admin/Home.aspx");
                     }
                     else
                     {

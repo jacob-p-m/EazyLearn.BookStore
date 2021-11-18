@@ -13,12 +13,12 @@ namespace EazyLearn.BookStore.Admin_Pages {
     public partial class AdminDefault {
         
         /// <summary>
-        /// welcomemessage control.
+        /// lblWelcomeMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label welcomemessage;
+        protected global::System.Web.UI.WebControls.Label lblWelcomeMessage;
     }
 }
