@@ -33,9 +33,16 @@
 			</li>
 			<li>
 				<label>
+					Add Special Price :
+				</label>
+				<asp:DropDownList ID="ddlSpecialPriceStatus" runat="server" AutoPostBack="true">
+				</asp:DropDownList>
+			</li>
+			<li>
+				<label>
 					Special Price :
 				</label>
-				<input type="number" id="txtSpecialPrice" runat="server" name="SpecialPrice" value="0" />
+				<input type="number" id="txtSpecialPrice" runat="server" name="SpecialPrice" value="0.00" />
 			</li>
 			<li>
 				<label>

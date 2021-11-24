@@ -37,8 +37,7 @@
 				</p>
 			</span>
 		</header>
-		<!--  <span class="toggle"></span>
--->
+		<!--  <span class="toggle"></span>-->
 		<div class="sidebar">
 
 			<ul>
@@ -59,10 +58,13 @@
 
 				</li>
 
-				<asp:GridView ID="gvCategoryList" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" CellPadding="6" GridLines="None" ShowHeader="False">
-					<AlternatingRowStyle ForeColor="Black" VerticalAlign="Middle" />
+				<asp:GridView ID="gvCategoryList" runat="server" AutoGenerateColumns="False" 
+					OnRowDataBound ="gvCategoryList_RowDataBound"
+					OnSelectedIndexChanged="GridView1_SelectedIndexChanged" 
+					CellPadding="6" GridLines="None" ShowHeader="False">
+					<AlternatingRowStyle ForeColor="Black" VerticalAlign="Middle"/>
 					<Columns>
-						<asp:BoundField DataField="Category Name" ShowHeader="False" />
+						<asp:HyperLinkField DataTextField="Category Name" DataNavigateUrlFields="Category Id" DataNavigateUrlFormatString="~/BookListByCategory.aspx?categoryId={0}"/>
 					</Columns>
 					<EmptyDataTemplate>
 						No Categories

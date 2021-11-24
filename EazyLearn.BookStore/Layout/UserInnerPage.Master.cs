@@ -37,5 +37,9 @@ namespace EazyLearn.BookStore.Layout
             Response.Redirect("~/Login.aspx");
         }
 
+        protected void gvCategoryList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+        }
     }
 }

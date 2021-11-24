@@ -28,6 +28,7 @@ namespace EazyLearn.BookStore.Admin
 
         protected void gvBookList_RowEditing1(object sender, GridViewEditEventArgs e)
         {
+
             int bookId = Convert.ToInt32(gvBookList.Rows[e.NewEditIndex].Cells[0].Text);
             Response.Redirect("~/Admin/BookDetailsEdit.aspx?bookId=" + bookId);
         }
@@ -37,6 +38,19 @@ namespace EazyLearn.BookStore.Admin
             Fill();
             gvBookList.PageIndex = e.NewPageIndex;
             gvBookList.DataBind();
+        }
+
+        protected void gvBookList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gvBookList_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int bookId = Convert.ToInt32(gvBookList.Rows[e.RowIndex].Cells[0].Text);
+            Book objBook = new Book();
+            objBook.DeleteBook(bookId);
+            Fill();
         }
     }
 }

@@ -73,6 +73,7 @@
 					</li>
 					<li>
 						<label id="txtValidation" runat="server"></label>
+						<a href="Login.aspx">Back to Login</a>
 					</li>
 				</ul>
 			</div>

@@ -2,6 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<asp:GridView ID="gvSpecials" runat="server" AutoGenerateColumns="False" PageSize="8" CellPadding="10" AllowPaging="True" OnPageIndexChanging="gvSpecials_PageIndexChanging">
+		<EmptyDataTemplate>
+			No books with special prices
+		</EmptyDataTemplate>
 		<HeaderStyle BackColor="#92B700" ForeColor="White" />
 		<PagerStyle HorizontalAlign="Center" />
 		<Columns>

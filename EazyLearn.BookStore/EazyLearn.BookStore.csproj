@@ -112,6 +112,8 @@
     <Content Include="Admin\CategoryManagement.aspx" />
     <Content Include="Admin\Login.aspx" />
     <Content Include="Admin\Specials.aspx" />
+    <Content Include="BookListByCategory.aspx" />
+    <Content Include="Cart.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -246,6 +248,20 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BookListByCategory.aspx.cs">
+      <DependentUpon>BookListByCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BookListByCategory.aspx.designer.cs">
+      <DependentUpon>BookListByCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cart.aspx.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cart.aspx.designer.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Components\Administrator.cs" />
     <Compile Include="Components\Book.cs" />
     <Compile Include="Components\Cart.cs" />

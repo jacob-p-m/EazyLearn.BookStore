@@ -94,9 +94,8 @@ namespace EazyLearn.BookStore
                     numberOfRowsAffected = obj.InsertCustomerDetails();
                     if (numberOfRowsAffected > 0)
                     {
-                        ShowMessage("Successfully registration");
+                        ShowMessage("Successfully registration. Now Login to browse books");
                         ClearBoxes();
-
                     }
                     else
                     {

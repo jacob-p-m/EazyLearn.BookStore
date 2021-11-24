@@ -257,6 +257,42 @@ namespace EazyLearn.BookStore.Components
 
             return dt;
         }
+
+        /// <summary>
+        /// gets all book details given the category id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>datatable </returns>
+        public DataTable GetAllBookDetailsGivenCategoryId(int id)
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+
+
+            SqlConnection sqlConnection = null;
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                sqlConnection = DatabaseConnection.GetDatbaseConnection();
+                sqlConnection.Open();
+
+                cmd = new SqlCommand("procBookByCategoryIdSelect", sqlConnection);
+                cmd.Parameters.Add(new SqlParameter("@id", id));
+                cmd.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return dt;
+        }
         #endregion
 
         #region Update Methods
@@ -290,6 +326,48 @@ namespace EazyLearn.BookStore.Components
                 cmd.Parameters.Add("@specialpricestatus", SqlDbType.Bit).Value = this.SpecialPriceStatus;
                 cmd.Parameters.Add("@specialprice", SqlDbType.Decimal).Value = this.SpecialPrice;
                 cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = this.Description;
+
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected; //return the number of rows affected
+        }
+        #endregion
+
+        #region Delete Methods
+
+        /// <summary>
+        /// delete a book from the book table
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>int - number of rows affected</returns>
+        public int DeleteBook(int id)
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procBookDelete";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
 
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();

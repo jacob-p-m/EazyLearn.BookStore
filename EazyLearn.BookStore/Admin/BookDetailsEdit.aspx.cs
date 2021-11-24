@@ -20,6 +20,20 @@ namespace EazyLearn.BookStore.Admin
             }
             btnSubmit.ServerClick += new EventHandler(BtnSubmit_Click);
             btnCancel.ServerClick += new EventHandler(BtnCancel_Click);
+            ddlSpecialPriceStatus.SelectedIndexChanged += new EventHandler(SpecialPriceStatusChanged_Click);
+
+        }
+
+        void SpecialPriceStatusChanged_Click(object sender, EventArgs e)
+        {
+            if (ddlSpecialPriceStatus.SelectedValue == "No")
+            {
+                txtSpecialPrice.Value = "0.00";
+            }
+            else
+            {
+                txtValidation.InnerText = "Enter special price";
+            }
         }
 
         void Fill()
@@ -34,11 +48,27 @@ namespace EazyLearn.BookStore.Admin
             txtSpecialPrice.Value = dt.Rows[0]["Book Special Price"].ToString();
             txtDescription.Value = dt.Rows[0]["Book Description"].ToString();
 
+            // Special Price Status drop down list initial values
+            List<string> specialPriceStatus = new List<string> { "Yes", "No" };
+            ddlSpecialPriceStatus.DataSource = specialPriceStatus;
+            ddlSpecialPriceStatus.DataBind();
+
+            if (Convert.ToInt32(dt.Rows[0]["Special Price Status"]) == 1)
+            {
+                ddlSpecialPriceStatus.SelectedValue = "Yes";
+            }
+            else
+            {
+                ddlSpecialPriceStatus.SelectedValue = "No";
+            }
+
             Category objCat = new Category();
             ddlCategory.DataSource = objCat.GetAllCategoryDetails();
             ddlCategory.DataTextField = "Category Name";
             ddlCategory.DataValueField = "Category Id";
             ddlCategory.DataBind();
+
+            ddlCategory.SelectedValue = dt.Rows[0]["Category Id"].ToString();
         }
 
         void BtnCancel_Click(object sender, EventArgs e)
@@ -78,14 +108,25 @@ namespace EazyLearn.BookStore.Admin
                 objBook.CategoryId = Convert.ToInt32(ddlCategory.SelectedValue);
                 objBook.Price = Convert.ToDouble(txtPrice.Value);
 
-                if (txtSpecialPrice.Value == "0" || txtSpecialPrice.Value == "")
+                if (ddlSpecialPriceStatus.SelectedValue == "Yes")
                 {
-                    txtSpecialPrice.Value = "0";
-                    objBook.SpecialPriceStatus = 0;
+                    objBook.SpecialPriceStatus = 1;
+
+                    if (Convert.ToDouble(txtSpecialPrice.Value) > objBook.Price)
+                    {
+                        ShowMessage("Special price cannot be greater than normal price");
+                        return;
+                    }
+                    if (Convert.ToDouble(txtSpecialPrice.Value) == 0.0)
+                    {
+                        ShowMessage("Special price cannot be zero");
+                        return;
+                    }
+
                 }
                 else
                 {
-                    objBook.SpecialPriceStatus = 1;
+                    objBook.SpecialPriceStatus = 0;
                 }
 
                 objBook.SpecialPrice = Convert.ToDouble(txtSpecialPrice.Value);
