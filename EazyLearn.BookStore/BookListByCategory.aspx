@@ -19,7 +19,7 @@
 			<asp:BoundField DataField="Book Price" HeaderText="Price" />
 			<asp:BoundField DataField="Book Special Price" HeaderText="Special Price" />
 			<asp:BoundField DataField="Book Description" HeaderText="Summary" />
-							<asp:HyperLinkField Text="Add" DataNavigateUrlFields="Book Id" DataNavigateUrlFormatString="~/Cart.aspx?bookId={0}"/>
+							<asp:HyperLinkField Text="Details" DataNavigateUrlFields="Book Id" DataNavigateUrlFormatString="~/BookDetails.aspx?bookId={0}"/>
 		</Columns>
 		<EmptyDataTemplate>
 			No Books in this category
