@@ -39,11 +39,12 @@ namespace EazyLearn.BookStore
         protected void btnAddToCart_Click(object sender, EventArgs e)
         {
             int bookId;
-
             bookId = Convert.ToInt32(Request.QueryString["bookId"].ToString());
             string userEmail = Session["UserEmail"].ToString();
+
             //Adding the book to the cart
             //code here...........
+
             Book objBook = new Book();
             Cart objCart = new Cart();
             DataTable dtBook = new DataTable();

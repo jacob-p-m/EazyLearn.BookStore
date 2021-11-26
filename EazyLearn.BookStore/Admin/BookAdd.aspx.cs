@@ -5,26 +5,21 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-namespace EazyLearn.BookStore.Admin
+  namespace EazyLearn.BookStore.Admin
 {
     public partial class BookAdd : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!IsPostBack)
             {
                 FillBoxes();
             }
-
-            btnSubmit.ServerClick += new EventHandler(BtnSubmit_Click);
+              btnSubmit.ServerClick += new EventHandler(BtnSubmit_Click);
             btnCancel.ServerClick += new EventHandler(BtnCancel_Click);
             ddlSpecialPriceStatus.SelectedIndexChanged += new EventHandler(SpecialPriceStatusChanged_Click);
-
-        }
-
-        void SpecialPriceStatusChanged_Click(object sender, EventArgs e)
+          }
+          void SpecialPriceStatusChanged_Click(object sender, EventArgs e)
         {
             if (ddlSpecialPriceStatus.SelectedValue == "No")
             {

@@ -13,8 +13,7 @@
 				</ItemTemplate>
 			</asp:TemplateField>
 			<asp:BoundField DataField="Total Amount" HeaderText="Total" />
-
-		</Columns>
+  		</Columns>
 		<EmptyDataTemplate>
 			No items in cart
 		</EmptyDataTemplate>

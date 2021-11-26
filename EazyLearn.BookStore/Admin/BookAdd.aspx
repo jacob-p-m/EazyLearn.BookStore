@@ -1,20 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Layout/AdminInnerPage.Master" AutoEventWireup="true" CodeBehind="BookAdd.aspx.cs" Inherits="EazyLearn.BookStore.Admin.BookAdd" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-
+  <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+  
 	<div class="adminForm">
 		<h3>Enter Book details here</h3>
-
-		<ul>
+  		<ul>
 			<li>
 				<label>
 					Title :
 				</label>
 				<input type="text" id="txtTitle" runat="server" name="Title" />
 			</li>
-
-			<li>
+  			<li>
 				<label>
 					Author :
 				</label>
@@ -58,13 +54,9 @@
 					<input type="button" class="can" value="Cancel" name="cancel" id="btnCancel" runat="server" />
 				</span>
 			</li>
-
-		</ul>
+  		</ul>
 		<div>
-
-			<label id="txtValidation" runat="server"></label>
+  			<label id="txtValidation" runat="server"></label>
 		</div>
-
-	</div>
-
-</asp:Content>
+  	</div>
+  </asp:Content>
