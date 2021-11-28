@@ -17,8 +17,21 @@ namespace EazyLearn.BookStore
             if (!IsPostBack)
             {
                 Book objBook = new Book();
+
                 gvBookListByCategoryId.DataSource = objBook.GetAllBookDetailsGivenCategoryId(categoryId);
                 gvBookListByCategoryId.DataBind();
+            }
+        }
+
+        protected void gvBookListByCategoryId_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblSpecialPrice = (Label)e.Row.FindControl("lblSpecialPrice");
+                if (lblSpecialPrice.Text == "0.00")
+                {
+                    lblSpecialPrice.Text = "";
+                }
             }
         }
     }

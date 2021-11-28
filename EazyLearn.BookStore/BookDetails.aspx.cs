@@ -11,33 +11,75 @@ namespace EazyLearn.BookStore
 {
     public partial class BookDetails : System.Web.UI.Page
     {
+        bool bookAdded = false;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             int bookId;
 
             bookId = Convert.ToInt32(Request.QueryString["bookId"].ToString());
+            string userEmail = Session["UserEmail"].ToString();
+
+            Book objBook = new Book();
+            Cart objCart = new Cart();
+            DataTable dtBook = new DataTable();
+
+
+            //Check if book already exists in cart
+            Order objOrder = new Order();
+            DataTable dt = objOrder.GetOrderDetailsGivenUserEmail(userEmail);
+
+            if (dt!=null && dt.Rows.Count > 0)
+            {
+                int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+                dtBook = objCart.GetCartDetailsGivenOrderIdAndBookId(orderId, bookId);
+
+                if (dtBook.Rows.Count > 0)
+                {
+                    btnAddToCart.Text = "Item Added";
+                    bookAdded = true;
+                }
+            }
+
+    
 
             if (!IsPostBack)
             {
-                Book objBook = new Book();
-                DataTable dtBook = new DataTable();
-            
-                dtBook = objBook.GetAllBookDetailsById(bookId);
-                lblBookId.Text = dtBook.Rows[0]["Book Id"].ToString();
-                lblBookName.Text = dtBook.Rows[0]["Book Title"].ToString();
-                lblBookPrice.Text = dtBook.Rows[0]["Book Price"].ToString();
-
-                if (dtBook.Rows[0]["Special Price Status"].ToString() == "1")
-                {
-                    lblBookSpecialPrice.Text = dtBook.Rows[0]["Book Special Price"].ToString();
-                }
-
-                lblBookDescription.Text = dtBook.Rows[0]["Book Description"].ToString();
+                Fill();
             }
+        }
+
+        void Fill()
+        {
+            int bookId;
+            Book objBook = new Book();
+            DataTable dtBook = new DataTable();
+
+            bookId = Convert.ToInt32(Request.QueryString["bookId"].ToString());
+            dtBook = objBook.GetAllBookDetailsById(bookId);
+            lblBookId.Text = dtBook.Rows[0]["Book Id"].ToString();
+            lblBookName.Text = dtBook.Rows[0]["Book Title"].ToString();
+            lblBookPrice.Text = dtBook.Rows[0]["Book Price"].ToString();
+
+            if (Convert.ToInt32(dtBook.Rows[0]["Special Price Status"]) == 1)
+            {
+                lblBookSpecialPrice.Text = dtBook.Rows[0]["Book Special Price"].ToString();
+            }
+            else
+            {
+                lblBookSpecialPrice.Text = "No Special Price for this book now";
+            }
+
+            lblBookDescription.Text = dtBook.Rows[0]["Book Description"].ToString();
         }
 
         protected void btnAddToCart_Click(object sender, EventArgs e)
         {
+            if (bookAdded)
+            {
+                return;
+            }
+
             int bookId;
             bookId = Convert.ToInt32(Request.QueryString["bookId"].ToString());
             string userEmail = Session["UserEmail"].ToString();
@@ -49,19 +91,25 @@ namespace EazyLearn.BookStore
             Cart objCart = new Cart();
             DataTable dtBook = new DataTable();
 
-            //Check if book already exists in cart
-            dtBook = objCart.GetCartDetailsGivenUserEmailAndBookId(userEmail, bookId);
-            if (dtBook.Rows.Count > 0)
-            {
-                lblShowMessage.Text = "Book already exists in cart";
-                return;
-            }
+            Order objOrder = new Order();
+            objOrder.UserEmail = userEmail;
+            objOrder.InsertOrderDetails();
+            int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+            
 
             dtBook = objBook.GetAllBookDetailsById(bookId);
-            objCart.UserEmail = userEmail;
+            objCart.OrderId = orderId;
             objCart.BookId = Convert.ToInt32(dtBook.Rows[0]["Book Id"]);
             objCart.Quantity = 1;
-            objCart.UnitPrice = Convert.ToInt32(dtBook.Rows[0]["Book Price"]);
+            //If book having special price, then unit price should be the special price
+            if (Convert.ToInt32(dtBook.Rows[0]["Special Price Status"]) == 1)
+            {
+                objCart.UnitPrice = Convert.ToInt32(dtBook.Rows[0]["Book Special Price"]);
+            }
+            else
+            {
+                objCart.UnitPrice = Convert.ToInt32(dtBook.Rows[0]["Book Price"]);
+            }
             objCart.InsertCartDetails();
 
             Response.Redirect("~/ShoppingCart.aspx");

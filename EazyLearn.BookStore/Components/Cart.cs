@@ -34,15 +34,7 @@ namespace EazyLearn.BookStore.Components
     {
         #region Public Properties
 
-        /// <summary>
-        ///gets or sets the email of user  
-        /// </summary>
-        public string UserEmail
-        {
-            get;
-            set;
-        }
-
+        
         /// <summary>
         /// gets or sets the order id
         /// </summary>
@@ -133,7 +125,7 @@ namespace EazyLearn.BookStore.Components
                 cmd = new SqlCommand(insertQuery, connectionObj);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@useremail", SqlDbType.VarChar).Value = this.UserEmail;
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = this.OrderId;
                 cmd.Parameters.Add("@bookid", SqlDbType.Int).Value = this.BookId;
                 cmd.Parameters.Add("@quantity", SqlDbType.Int).Value = this.Quantity;
                 cmd.Parameters.Add("@unitprice", SqlDbType.Decimal).Value = this.UnitPrice;
@@ -152,6 +144,8 @@ namespace EazyLearn.BookStore.Components
             }
             return numberOfRowsAffected;
         }
+
+
         #endregion
 
         #region List Methods
@@ -161,7 +155,7 @@ namespace EazyLearn.BookStore.Components
         /// </summary>
         /// <param name="userEmail"></param>
         /// <returns>dataTable </returns>
-        public DataTable GetCartDetailsGivenUserEmail(string userEmail)
+        public DataTable GetCartDetailsGivenOrderId(int orderid)
         {
             SqlDataAdapter da = new SqlDataAdapter();
 
@@ -175,7 +169,7 @@ namespace EazyLearn.BookStore.Components
                 sqlConnection.Open();
 
                 cmd = new SqlCommand("procCartSelect", sqlConnection);
-                cmd.Parameters.Add(new SqlParameter("@useremail", userEmail));
+                cmd.Parameters.Add(new SqlParameter("@orderid", orderid));
                 cmd.CommandType = CommandType.StoredProcedure;
                 da.SelectCommand = cmd;
                 da.Fill(dt);
@@ -193,11 +187,11 @@ namespace EazyLearn.BookStore.Components
         }
 
         /// <summary>
-        /// gets book details in a cart given book id and useremail
+        /// get bill amount for a particular orderid in the cart
         /// </summary>
         /// <param name="userEmail"></param>
-        /// <returns></returns>
-        public DataTable GetCartDetailsGivenUserEmailAndBookId(string userEmail, int bookId)
+        /// <returns>DataTable - total amount</returns>
+        public DataTable GetBillAmountCart(int orderid)
         {
             SqlDataAdapter da = new SqlDataAdapter();
 
@@ -210,8 +204,44 @@ namespace EazyLearn.BookStore.Components
                 sqlConnection = DatabaseConnection.GetDatbaseConnection();
                 sqlConnection.Open();
 
-                cmd = new SqlCommand("procCartByBookIdAndUserEmailSelect", sqlConnection);
-                cmd.Parameters.Add(new SqlParameter("@useremail", userEmail));
+                cmd = new SqlCommand("procCartBillAmountSelect", sqlConnection);
+                cmd.Parameters.Add(new SqlParameter("@orderid", orderid));
+                cmd.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return dt;
+        }
+
+        /// <summary>
+        /// gets book details in a cart given book id and orderid
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        public DataTable GetCartDetailsGivenOrderIdAndBookId(int orderid, int bookId)
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+
+
+            SqlConnection sqlConnection = null;
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                sqlConnection = DatabaseConnection.GetDatbaseConnection();
+                sqlConnection.Open();
+
+                cmd = new SqlCommand("procCartByBookIdAndOrderIdSelect", sqlConnection);
+                cmd.Parameters.Add(new SqlParameter("@orderid", orderid));
                 cmd.Parameters.Add(new SqlParameter("@bookid", bookId));
                 cmd.CommandType = CommandType.StoredProcedure;
                 da.SelectCommand = cmd;
@@ -228,6 +258,94 @@ namespace EazyLearn.BookStore.Components
 
             return dt;
         }
+        #endregion
+
+        #region Update Methods
+
+        /// <summary>
+        /// update quantity of a book of a user in the cart
+        /// </summary>
+        /// <param name="useremail"></param>
+        /// <param name="bookid"></param>
+        /// <returns>int -no. of rows affected</returns>
+        public int UpdateCartDetails()
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procCartUpdate";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = this.OrderId;
+                cmd.Parameters.Add("@bookid", SqlDbType.Int).Value = this.BookId;
+                cmd.Parameters.Add("@quantity", SqlDbType.Int).Value = this.Quantity;
+
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected;
+        }
+        #endregion
+
+        #region Delete Methods
+
+        /// <summary>
+        /// delete a book from cart given orderid and bookid
+        /// </summary>
+        /// <returns>int number of rows affected</returns>
+        public int DeleteCartDetails(int orderid, int bookid)
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procCartDelete";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = orderid;
+                cmd.Parameters.Add("@bookid", SqlDbType.Int).Value = bookid;
+                
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected;
+        }
+
         #endregion
         #endregion
     }

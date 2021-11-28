@@ -28,7 +28,7 @@ namespace EazyLearn.BookStore.Admin
         {
             if (ddlSpecialPriceStatus.SelectedValue == "No")
             {
-                txtSpecialPrice.Value = "0.00";
+                txtSpecialPrice.Value = "";
             }
             else
             {
@@ -110,26 +110,25 @@ namespace EazyLearn.BookStore.Admin
 
                 if (ddlSpecialPriceStatus.SelectedValue == "Yes")
                 {
-                    objBook.SpecialPriceStatus = 1;
-
+                    if (Convert.ToDouble(txtSpecialPrice.Value) == 0.0 || txtSpecialPrice.Value == "")
+                    {
+                        ShowMessage("Invalid Special Price");
+                        return;
+                    }
                     if (Convert.ToDouble(txtSpecialPrice.Value) > objBook.Price)
                     {
                         ShowMessage("Special price cannot be greater than normal price");
                         return;
                     }
-                    if (Convert.ToDouble(txtSpecialPrice.Value) == 0.0)
-                    {
-                        ShowMessage("Special price cannot be zero");
-                        return;
-                    }
-
+                
+                    objBook.SpecialPriceStatus = 1;
+                    objBook.SpecialPrice = Convert.ToDouble(txtSpecialPrice.Value);
                 }
                 else
                 {
                     objBook.SpecialPriceStatus = 0;
                 }
 
-                objBook.SpecialPrice = Convert.ToDouble(txtSpecialPrice.Value);
                 objBook.Description = txtDescription.Value;
                 int bookId = Convert.ToInt32(Request.QueryString["bookId"].ToString());
 

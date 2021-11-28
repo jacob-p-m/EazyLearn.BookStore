@@ -7,5 +7,4 @@
 	<label>Description</label><br />
 	<asp:Label ID="lblBookDescription" runat="server" Text=""></asp:Label><br />
 	<asp:LinkButton ID="btnAddToCart" runat="server" Text="Add to Cart" OnClick="btnAddToCart_Click"></asp:LinkButton><br />
-	<asp:Label ID="lblShowMessage" runat="server" Text=""></asp:Label>
 </asp:Content>
