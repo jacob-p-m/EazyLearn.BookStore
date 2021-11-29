@@ -46,6 +46,10 @@
 						<asp:LinkButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to delete this book?');" CausesValidation="False" CommandArgument='<%# Eval("[Book Id]") %>' CommandName="Delete" Text="Delete"></asp:LinkButton>
 
 				</ItemTemplate>
+				<FooterTemplate>
+	<asp:Button ID="btnCheckout" runat="server" Text="Proceed to checkout" OnClientClick="return confirm('Are you sure you want to proceed to checkout?');" OnClick="btnCheckout_Click" />
+
+				</FooterTemplate>
 			</asp:TemplateField>
   		</Columns>
 		<EmptyDataTemplate>
@@ -54,5 +58,4 @@
 		
 		<HeaderStyle BackColor="#92B700" ForeColor="White" />
 	</asp:GridView>
-
 </asp:Content>

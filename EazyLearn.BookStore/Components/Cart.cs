@@ -260,6 +260,7 @@ namespace EazyLearn.BookStore.Components
         }
         #endregion
 
+
         #region Update Methods
 
         /// <summary>
@@ -331,6 +332,46 @@ namespace EazyLearn.BookStore.Components
                 cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = orderid;
                 cmd.Parameters.Add("@bookid", SqlDbType.Int).Value = bookid;
                 
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected;
+        }
+
+        /// <summary>
+        /// delete cart items by order id when an order is finished
+        /// </summary>
+        /// <param name="orderid"></param>
+        /// <param name="bookid"></param>
+        /// <returns>int - number of items deleted</returns>
+        public int DeleteCartDetailsByOrderId(int orderid)
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procCartByOrderIdDelete";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = orderid;
+
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();
             }

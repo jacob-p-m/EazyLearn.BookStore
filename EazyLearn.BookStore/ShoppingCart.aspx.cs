@@ -11,6 +11,8 @@ namespace EazyLearn.BookStore
 {
     public partial class ShoppingCart : System.Web.UI.Page
     {
+        double billAmount;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -30,6 +32,13 @@ namespace EazyLearn.BookStore
             if (dt!=null && dt.Rows.Count > 0)
             {
                 int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+
+                //if cart is empty return
+                DataTable dtCart = objCart.GetCartDetailsGivenOrderId(orderId);
+                if (dtCart == null || dtCart.Rows.Count <= 0)
+                {
+                    return;
+                }
                 //show order id
                 lblOrderId.Text = orderId.ToString();
                 gvCart.DataSource = objCart.GetCartDetailsGivenOrderId(orderId);
@@ -39,7 +48,9 @@ namespace EazyLearn.BookStore
                 {
                     //show bill amount
                     (gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text = objCart.GetBillAmountCart(orderId).Rows[0].ItemArray[0].ToString() ?? "0";
-                    double billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
+                    billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
+
+
 
                 }
             }
@@ -119,6 +130,52 @@ namespace EazyLearn.BookStore
 
                 Fill();
             }
+        }
+
+        protected void btnCheckout_Click(object sender, EventArgs e)
+        {
+            string userEmail = Session["UserEmail"].ToString();
+            Order objOrder = new Order();
+            int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+            
+            //update order table
+            objOrder.UserEmail = userEmail;
+
+            DateTime currentDate = DateTime.Now;
+
+
+            objOrder.OrderDate = currentDate; 
+            objOrder.OrderId = orderId;
+            billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
+
+            objOrder.Amount = billAmount;
+            objOrder.UpdateOrderDetails();
+
+            //need to insert the cart details into order details table
+            Cart objCart = new Cart();
+            DataTable dtCart = objCart.GetCartDetailsGivenOrderId(orderId);
+            if (dtCart==null || dtCart.Rows.Count <= 0)
+            {
+                return;
+            }
+            OrderDetails objOdd = new OrderDetails();
+
+            //getting data from the cart table for a given orderid and inserting it into order details table.
+            foreach (DataRow row in dtCart.Rows)
+            {
+                objOdd.OrderId = Convert.ToInt32(orderId);
+                objOdd.BookId = Convert.ToInt32(row["Book Id"]);
+                objOdd.Quantity = Convert.ToInt32(row["Quantity"]);
+                objOdd.UnitPrice = Convert.ToDouble(row["Unit Price"]);
+                objOdd.TotalAmount = Convert.ToDouble(row["Total Amount"]);
+                objOdd.BillAmount = Convert.ToDouble(billAmount);
+                objOdd.InsertOrderDetails();
+            }
+
+            objCart.DeleteCartDetailsByOrderId(orderId);
+
+            Response.Redirect("~/OrderItems.aspx");
+
         }
     }
 }

@@ -35,6 +35,15 @@ namespace EazyLearn.BookStore.Components
         #region Public Properties
 
         /// <summary>
+        /// gets or sets order id
+        /// </summary>
+        public int OrderId
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// gets or sets the Date of order
         /// </summary>
         public DateTime OrderDate
@@ -55,7 +64,7 @@ namespace EazyLearn.BookStore.Components
         /// <summary>
         /// gets or set the final amount of order
         /// </summary>
-        public int Amount
+        public double Amount
         {
             get;
             set;
@@ -154,6 +163,91 @@ namespace EazyLearn.BookStore.Components
             return dt;
         }
 
+        #endregion
+
+        #region Update Methods
+
+        /// <summary>
+        /// Update order table using email, id, datetime, billamount
+        /// </summary>
+        /// <returns>int - number of rows updated</returns>
+        public int UpdateOrderDetails()
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procOrderUpdate";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@useremail", SqlDbType.VarChar).Value = this.UserEmail;
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = this.OrderId;
+                cmd.Parameters.Add("@datetime", SqlDbType.DateTime).Value = this.OrderDate;
+                cmd.Parameters.Add("@billamount", SqlDbType.Decimal).Value = this.Amount;
+
+
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected;
+        }
+
+        #endregion
+
+        #region Delete Methods
+        /// <summary>
+        /// delete an order from order table using order id
+        /// </summary>
+        /// <returns>int - number of rows deleted</returns>
+        public int DeleteOrderDetails(int orderid)
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procOrderByOrderIdDelete";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = this.OrderId;
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected;
+        }
         #endregion
         #endregion
     }

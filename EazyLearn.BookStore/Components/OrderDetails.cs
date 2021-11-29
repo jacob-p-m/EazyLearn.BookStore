@@ -21,6 +21,7 @@
 using EazyLearn.BookStore.Components;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -63,7 +64,7 @@ namespace EazyLearn.BookStore.Components
         /// <summary>
         /// gets or sets unit price of a book
         /// </summary>
-        public int UnitPrice
+        public double UnitPrice
         {
             get;
             set;
@@ -72,7 +73,7 @@ namespace EazyLearn.BookStore.Components
         /// <summary>
         /// gets or sets total amount of a single book
         /// </summary>
-        public int TotalAmount
+        public double TotalAmount
         {
             get;
             set;
@@ -81,7 +82,7 @@ namespace EazyLearn.BookStore.Components
         /// <summary>
         /// gets or sets the Bill amount
         /// </summary>
-        public int BillAmount
+        public double BillAmount
         {
             get;
             set;
@@ -110,29 +111,29 @@ namespace EazyLearn.BookStore.Components
         {
             int numberOfRowsAffected;
 
-            string insertQuery = "insert into bst_orderdetails (odd_orderid, odd_bookid, odd_quantity, odd_unitprice, odd_totalamount, " +
-                " odd_billamount, odd_isdeleted) " +
-                " values (@orderid, @bookid, @quantity, @unitprice, @totalamount, @billamount, @isdeleted); ";
+            string insertQuery = "procOrderDetailsInsert";
 
             SqlConnection connectionObj = null;
-            SqlCommand cmdInsertOrderDetails = null;
+            SqlCommand cmd = null;
 
             try
             {
                 connectionObj = DatabaseConnection.GetDatbaseConnection();
                 connectionObj.Open();
 
-                cmdInsertOrderDetails = new SqlCommand(insertQuery, connectionObj);
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmdInsertOrderDetails.Parameters.AddWithValue("@orderid", this.OrderId);
-                cmdInsertOrderDetails.Parameters.AddWithValue("@bookid", this.BookId);
-                cmdInsertOrderDetails.Parameters.AddWithValue("@quantity", this.Quantity);
-                cmdInsertOrderDetails.Parameters.AddWithValue("@unitprice", this.UnitPrice);
-                cmdInsertOrderDetails.Parameters.AddWithValue("@totalamount", this.TotalAmount);
-                cmdInsertOrderDetails.Parameters.AddWithValue("@billamount", this.BillAmount);
-                cmdInsertOrderDetails.Parameters.AddWithValue("@isdeleted", this.IsDeleted);
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = this.OrderId;
+                cmd.Parameters.Add("@bookid", SqlDbType.Int).Value = this.BookId;
+                cmd.Parameters.Add("@quantity", SqlDbType.Int).Value = this.Quantity;
+                cmd.Parameters.Add("@unitprice", SqlDbType.Decimal).Value = this.UnitPrice;
+                cmd.Parameters.Add("@totalamount", SqlDbType.Decimal).Value = this.TotalAmount;
+                cmd.Parameters.Add("@billamount", SqlDbType.Decimal).Value = this.BillAmount;
 
-                numberOfRowsAffected = cmdInsertOrderDetails.ExecuteNonQuery();
+
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
             {
@@ -144,6 +145,45 @@ namespace EazyLearn.BookStore.Components
                 connectionObj.Close();
             }
             return numberOfRowsAffected;
+        }
+        #endregion
+
+        #region List Methods
+
+        /// <summary>
+        /// get order details table given a order id
+        /// </summary>
+        /// <param name="useremail"></param>
+        /// <returns>dataTable </returns>
+        public DataTable GetOrderDetailsGivenOrderId(int orderid)
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+
+
+            SqlConnection sqlConnection = null;
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                sqlConnection = DatabaseConnection.GetDatbaseConnection();
+                sqlConnection.Open();
+
+                cmd = new SqlCommand("procOrderDetailsSelect", sqlConnection);
+                cmd.Parameters.Add(new SqlParameter("@orderid", orderid));
+                cmd.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return dt;
         }
         #endregion
         #endregion
