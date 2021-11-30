@@ -1,7 +1,10 @@
 ﻿using EazyLearn.BookStore.Components;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -53,15 +56,7 @@ namespace EazyLearn.BookStore
 
             if (cardValid)
             {
-                //delete order details
-                string userEmail = Session["UserEmail"].ToString();
-                Order objOrder = new Order();
-                int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
-                objOrder.DeleteOrderDetails(orderId);
-                //creating new order number for the user
-                objOrder.UserEmail = userEmail;
-                objOrder.InsertOrderDetails();
-
+     
                 Response.Redirect("~/OrderConfirmation.aspx");
             }
             else
@@ -70,5 +65,9 @@ namespace EazyLearn.BookStore
                 return;
             }
         }
+
+       
     }
+
+  
 }
