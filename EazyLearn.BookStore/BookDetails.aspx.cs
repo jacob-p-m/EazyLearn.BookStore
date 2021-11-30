@@ -27,9 +27,11 @@ namespace EazyLearn.BookStore
 
             //Check if book already exists in cart
             Order objOrder = new Order();
+            //check if order exists for a specific user email
+
             DataTable dt = objOrder.GetOrderDetailsGivenUserEmail(userEmail);
 
-            if (dt!=null && dt.Rows.Count > 0)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
                 dtBook = objCart.GetCartDetailsGivenOrderIdAndBookId(orderId, bookId);
@@ -92,8 +94,9 @@ namespace EazyLearn.BookStore
             DataTable dtBook = new DataTable();
 
             Order objOrder = new Order();
-            objOrder.UserEmail = userEmail;
-            objOrder.InsertOrderDetails();
+            //objOrder.UserEmail = userEmail;
+            //objOrder.InsertOrderDetails(); 
+            //getting new order number
             int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
             
 

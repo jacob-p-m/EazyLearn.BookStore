@@ -36,5 +36,10 @@ namespace EazyLearn.BookStore
                 (gvOrderDetails.FooterRow.FindControl("txtBillAmount") as TextBox).Text = billAmount.ToString();
             }
         }
+
+        protected void btnPayment_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/PaymentDetails.aspx");
+        }
     }
 }

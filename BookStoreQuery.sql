@@ -432,6 +432,16 @@ FROM bst_order
 WHERE ord_useremail = @useremail AND ord_isdeleted = 0;
 GO
 
+/*--------------------delete order--------------*/
+GO
+CREATE PROCEDURE procOrderDelete
+@orderid INT
+AS
+UPDATE bst_order
+SET ord_isdeleted = 1
+WHERE ord_id = @orderid;
+GO
+
 /*--------------------------ORDER DETAILS TABLE------------------*/
 CREATE TABLE bst_orderdetails
 (
@@ -470,5 +480,40 @@ odd_billamount as [Bill Amount]
 FROM bst_orderdetails
 WHERE odd_orderid = @orderid AND odd_isdeleted = 0;
 GO
+ 
+
+/*-------------CREDIT CARD DATABASE----------*/
+CREATE TABLE bst_creditcarddata
+(
+ccd_id INT NOT NULL IDENTITY(1,1),
+ccd_cardnumber CHAR(16) NOT NULL,
+ccd_month CHAR(2) NOT NULL,
+ccd_year CHAR(2) NOT NULL,
+ccd_cvv CHAR(3) NOT NULL,
+ccd_isdeleted BIT NOT NULL DEFAULT 0
+);
+
+INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
+VALUES ('1234123412341234', '01', '01', '111')
+
+
+GO
+CREATE PROCEDURE procCreditCardValidation
+@cardnumber CHAR(16), @month CHAR(2), @year CHAR(2), @cvv CHAR(3)
+AS
+SELECT
+ccd_id AS [Card Id]
+FROM bst_creditcarddata
+WHERE ccd_cardnumber = @cardnumber AND ccd_month = @month AND ccd_year = @year AND ccd_cvv = @cvv AND ccd_isdeleted =0;
+GO
+
+
+truncate table bst_cart
+truncate table bst_order
+truncate table bst_orderdetails
+
+select * from bst_order
 
 select * from bst_orderdetails
+
+select * from bst_cart

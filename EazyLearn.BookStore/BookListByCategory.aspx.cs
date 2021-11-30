@@ -13,6 +13,7 @@ namespace EazyLearn.BookStore
         protected void Page_Load(object sender, EventArgs e)
         {
             int categoryId = Convert.ToInt32(Request.QueryString["categoryId"].ToString());
+            
 
             if (!IsPostBack)
             {

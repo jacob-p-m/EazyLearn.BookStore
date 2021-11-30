@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Layout/UserInnerPage.Master" AutoEventWireup="true" CodeBehind="OrderItems.aspx.cs" Inherits="EazyLearn.BookStore.OrderItems" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<h2>Order Details</h2>
-	<p>
+	
 		<asp:GridView ID="gvOrderDetails" runat="server" AutoGenerateColumns="False" ShowFooter="True" CellPadding="10">
 			<Columns>
 				<asp:BoundField DataField="Book Id" HeaderText="Book Id" />
@@ -26,5 +26,5 @@
 			
 		<HeaderStyle BackColor="#92B700" ForeColor="White" />
 		</asp:GridView>
-	</p>
+		<asp:Button ID="btnPayment" runat="server" OnClientClick="return confirm('Are you sure you want to proceed to payment');" Text="Go to Payment" OnClick="btnPayment_Click"/>	
 </asp:Content>

@@ -94,8 +94,15 @@ namespace EazyLearn.BookStore
                     numberOfRowsAffected = obj.InsertCustomerDetails();
                     if (numberOfRowsAffected > 0)
                     {
+                        //creating new order row for the customer including order number
+                        Order objOrder = new Order();
+                        objOrder.UserEmail = txtEmail.Value.ToString();
+                        objOrder.InsertOrderDetails();
+
                         ShowMessage("Successfully registration. Now Login to browse books");
                         ClearBoxes();
+
+                   
                     }
                     else
                     {

@@ -50,6 +50,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -114,11 +116,22 @@
     <Content Include="Admin\Specials.aspx" />
     <Content Include="BookDetails.aspx" />
     <Content Include="BookListByCategory.aspx" />
+    <None Include="Connected Services\CreditCardValidationWebService\CreditCardValidation.disco" />
+    <None Include="Connected Services\CreditCardValidationWebService\configuration91.svcinfo" />
+    <None Include="Connected Services\CreditCardValidationWebService\configuration.svcinfo" />
+    <Content Include="Connected Services\CreditCardValidationWebService\EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\CreditCardValidationWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CreditCardValidation.asmx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -133,9 +146,12 @@
     <Content Include="Home.aspx" />
     <Content Include="Layout\LoginMasterPage.Master" />
     <Content Include="Layout\UserInnerPage.Master" />
+    <None Include="Connected Services\CreditCardValidationWebService\CreditCardValidation.wsdl" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Login.aspx" />
+    <Content Include="OrderConfirmation.aspx" />
     <Content Include="OrderItems.aspx" />
+    <Content Include="PaymentDetails.aspx" />
     <Content Include="Registration.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -273,6 +289,15 @@
     <Compile Include="Components\Order.cs" />
     <Compile Include="Components\OrderDetails.cs" />
     <Compile Include="Components\Payment.cs" />
+    <Compile Include="Connected Services\CreditCardValidationWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCardValidation.asmx.cs">
+      <DependentUpon>CreditCardValidation.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -304,12 +329,26 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="OrderConfirmation.aspx.cs">
+      <DependentUpon>OrderConfirmation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrderConfirmation.aspx.designer.cs">
+      <DependentUpon>OrderConfirmation.aspx</DependentUpon>
+    </Compile>
     <Compile Include="OrderItems.aspx.cs">
       <DependentUpon>OrderItems.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="OrderItems.aspx.designer.cs">
       <DependentUpon>OrderItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentDetails.aspx.cs">
+      <DependentUpon>PaymentDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PaymentDetails.aspx.designer.cs">
+      <DependentUpon>PaymentDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.aspx.cs">
@@ -368,6 +407,12 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\CreditCardValidationWebService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

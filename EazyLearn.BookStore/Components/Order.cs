@@ -220,7 +220,7 @@ namespace EazyLearn.BookStore.Components
         {
             int numberOfRowsAffected;
 
-            string insertQuery = "procOrderByOrderIdDelete";
+            string insertQuery = "procOrderDelete";
 
             SqlConnection connectionObj = null;
             SqlCommand cmd = null;
@@ -233,7 +233,7 @@ namespace EazyLearn.BookStore.Components
                 cmd = new SqlCommand(insertQuery, connectionObj);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = this.OrderId;
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = orderid;
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();
             }

@@ -49,10 +49,17 @@ namespace EazyLearn.BookStore
                     //show bill amount
                     (gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text = objCart.GetBillAmountCart(orderId).Rows[0].ItemArray[0].ToString() ?? "0";
                     billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
-
-
-
                 }
+            }
+            else
+            {
+                ////delete order details
+                //int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+                //objOrder.DeleteOrderDetails(orderId);
+
+                //creating new order number for the user
+                objOrder.UserEmail = userEmail;
+                objOrder.InsertOrderDetails();
             }
         }
 
@@ -151,28 +158,36 @@ namespace EazyLearn.BookStore
             objOrder.Amount = billAmount;
             objOrder.UpdateOrderDetails();
 
-            //need to insert the cart details into order details table
-            Cart objCart = new Cart();
-            DataTable dtCart = objCart.GetCartDetailsGivenOrderId(orderId);
-            if (dtCart==null || dtCart.Rows.Count <= 0)
-            {
-                return;
-            }
+            //check whether the order already exists in the order details table
             OrderDetails objOdd = new OrderDetails();
+            DataTable dt = objOdd.GetOrderDetailsGivenOrderId(orderId);
+            Cart objCart = new Cart();
 
-            //getting data from the cart table for a given orderid and inserting it into order details table.
-            foreach (DataRow row in dtCart.Rows)
+            if (dt== null || dt.Rows.Count <= 0)
             {
-                objOdd.OrderId = Convert.ToInt32(orderId);
-                objOdd.BookId = Convert.ToInt32(row["Book Id"]);
-                objOdd.Quantity = Convert.ToInt32(row["Quantity"]);
-                objOdd.UnitPrice = Convert.ToDouble(row["Unit Price"]);
-                objOdd.TotalAmount = Convert.ToDouble(row["Total Amount"]);
-                objOdd.BillAmount = Convert.ToDouble(billAmount);
-                objOdd.InsertOrderDetails();
+
+                //need to insert the cart details into order details table
+                DataTable dtCart = objCart.GetCartDetailsGivenOrderId(orderId);
+                if (dtCart==null || dtCart.Rows.Count <= 0)
+                {
+                    return;
+                }
+
+                //getting data from the cart table for a given orderid and inserting it into order details table.
+                foreach (DataRow row in dtCart.Rows)
+                {
+                    objOdd.OrderId = Convert.ToInt32(orderId);
+                    objOdd.BookId = Convert.ToInt32(row["Book Id"]);
+                    objOdd.Quantity = Convert.ToInt32(row["Quantity"]);
+                    objOdd.UnitPrice = Convert.ToDouble(row["Unit Price"]);
+                    objOdd.TotalAmount = Convert.ToDouble(row["Total Amount"]);
+                    objOdd.BillAmount = Convert.ToDouble(billAmount);
+                    objOdd.InsertOrderDetails();
+                }
             }
 
             objCart.DeleteCartDetailsByOrderId(orderId);
+
 
             Response.Redirect("~/OrderItems.aspx");
 

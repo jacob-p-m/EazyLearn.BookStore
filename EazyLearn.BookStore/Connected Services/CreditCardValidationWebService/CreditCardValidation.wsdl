@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://creditcardvalidation.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://creditcardvalidation.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://creditcardvalidation.com/">
+      <s:element name="ValidateCreditCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cardnumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="month" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="year" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cvv" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateCreditCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidateCreditCardResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ValidateCreditCardSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateCreditCard" />
+  </wsdl:message>
+  <wsdl:message name="ValidateCreditCardSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateCreditCardResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CreditCardValidationSoap">
+    <wsdl:operation name="ValidateCreditCard">
+      <wsdl:input message="tns:ValidateCreditCardSoapIn" />
+      <wsdl:output message="tns:ValidateCreditCardSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CreditCardValidationSoap" type="tns:CreditCardValidationSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateCreditCard">
+      <soap:operation soapAction="http://creditcardvalidation.com/ValidateCreditCard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CreditCardValidationSoap12" type="tns:CreditCardValidationSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateCreditCard">
+      <soap12:operation soapAction="http://creditcardvalidation.com/ValidateCreditCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CreditCardValidation">
+    <wsdl:port name="CreditCardValidationSoap" binding="tns:CreditCardValidationSoap">
+      <soap:address location="http://localhost:60158/CreditCardValidation.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CreditCardValidationSoap12" binding="tns:CreditCardValidationSoap12">
+      <soap12:address location="http://localhost:60158/CreditCardValidation.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

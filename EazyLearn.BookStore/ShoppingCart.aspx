@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Layout/UserInnerPage.Master" AutoEventWireup="true" CodeBehind="ShoppingCart.aspx.cs" Inherits="EazyLearn.BookStore.ShoppingCart" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+	<h1>Shopping Cart</h1>
 	<p>Order No.</p>
 	<asp:Label ID="lblOrderId" runat="server" Text=""></asp:Label>
 	<asp:GridView ID="gvCart" runat="server" AutoGenerateColumns="False" OnRowDataBound="gvCart_RowDataBound" 
