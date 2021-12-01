@@ -72,12 +72,17 @@ using System.Web.UI.WebControls;
             {
                 ShowMessage("*Enter Description");
                 return;
+            }  else if (Check(txtImageUrl.Value))
+            {
+                ShowMessage("*Enter Cover image url");
+                return;
             }
             else
             {
                 Book objBook = new Book();
                 objBook.Title = txtTitle.Value;
                 objBook.Author = txtAuthor.Value;
+                objBook.ImageUrl = txtImageUrl.Value;
                 objBook.CategoryId = Convert.ToInt32(ddlCategory.SelectedValue);
                 objBook.Price = Convert.ToDouble(txtPrice.Value);
 
@@ -143,6 +148,7 @@ using System.Web.UI.WebControls;
             txtPrice.Value = "";
             txtSpecialPrice.Value = "";
             txtDescription.Value = "";
+            txtImageUrl.Value = "";
         }
     }
 }

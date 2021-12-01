@@ -107,6 +107,15 @@ namespace EazyLearn.BookStore.Components
             set;
         }
 
+        /// <summary>
+        /// gets or sets the cover page url
+        /// </summary>
+        public string ImageUrl
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Public Methods
@@ -141,6 +150,7 @@ namespace EazyLearn.BookStore.Components
                 cmd.Parameters.Add("@specialpricestatus", SqlDbType.Bit).Value = this.SpecialPriceStatus;
                 cmd.Parameters.Add("@specialprice", SqlDbType.Decimal).Value = this.SpecialPrice;
                 cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = this.Description;
+                cmd.Parameters.Add("@imageurl", SqlDbType.VarChar).Value = this.ImageUrl;
 
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();
@@ -326,6 +336,7 @@ namespace EazyLearn.BookStore.Components
                 cmd.Parameters.Add("@specialpricestatus", SqlDbType.Bit).Value = this.SpecialPriceStatus;
                 cmd.Parameters.Add("@specialprice", SqlDbType.Decimal).Value = this.SpecialPrice;
                 cmd.Parameters.Add("@description", SqlDbType.VarChar).Value = this.Description;
+                cmd.Parameters.Add("@imageurl", SqlDbType.VarChar).Value = this.ImageUrl;
 
 
                 numberOfRowsAffected = cmd.ExecuteNonQuery();

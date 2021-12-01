@@ -51,6 +51,12 @@
 				<textarea id="txtDescription" runat="server"></textarea>
 			</li>
 			<li>
+				<label>
+					Book Cover Page URL :
+				</label>
+				<textarea id="txtImageUrl" runat="server"></textarea>
+			</li>
+			<li>
 				<label></label>
 				<span>
 					<input type="button" value="submit" name="submit" id="btnSubmit" runat="server" />

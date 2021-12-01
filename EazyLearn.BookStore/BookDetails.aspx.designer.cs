@@ -13,6 +13,24 @@ namespace EazyLearn.BookStore {
     public partial class BookDetails {
         
         /// <summary>
+        /// imgBook control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgBook;
+        
+        /// <summary>
+        /// bookSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bookSection;
+        
+        /// <summary>
         /// lblBookId control.
         /// </summary>
         /// <remarks>
@@ -64,6 +82,6 @@ namespace EazyLearn.BookStore {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnAddToCart;
+        protected global::System.Web.UI.WebControls.Button btnAddToCart;
     }
 }

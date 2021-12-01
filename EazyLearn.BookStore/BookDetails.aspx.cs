@@ -39,11 +39,13 @@ namespace EazyLearn.BookStore
                 if (dtBook.Rows.Count > 0)
                 {
                     btnAddToCart.Text = "Item Added";
+                    btnAddToCart.BackColor = System.Drawing.Color.Red;
+                    btnAddToCart.ForeColor = System.Drawing.Color.White;
                     bookAdded = true;
                 }
             }
-
-    
+            imgBook.Style.Add("display", "inline");
+            imgBook.Style.Add("float", "left");
 
             if (!IsPostBack)
             {
@@ -60,6 +62,7 @@ namespace EazyLearn.BookStore
             bookId = Convert.ToInt32(Request.QueryString["bookId"].ToString());
             dtBook = objBook.GetAllBookDetailsById(bookId);
             lblBookId.Text = dtBook.Rows[0]["Book Id"].ToString();
+            imgBook.ImageUrl = dtBook.Rows[0]["Book Image Url"].ToString();
             lblBookName.Text = dtBook.Rows[0]["Book Title"].ToString();
             lblBookPrice.Text = dtBook.Rows[0]["Book Price"].ToString();
 

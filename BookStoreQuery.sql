@@ -22,6 +22,7 @@ bok_price DECIMAL(8,2) NOT NULL,
 bok_specialpricestatus BIT DEFAULT 0,
 bok_specialprice DECIMAL(8,2),
 bok_description VARCHAR(500),
+bok_imageurl VARCHAR(200),
 bok_isdeleted BIT NOT NULL DEFAULT (0)
 );
 
@@ -111,14 +112,15 @@ GO
 /*-------BOOK INSERT-------*/
 
 GO
-CREATE PROCEDURE procBookInsert
+alter PROCEDURE procBookInsert
 @title VARCHAR(50),
 @author VARCHAR(50),
 @categoryid INT,
 @price DECIMAL(10,2),
 @specialpricestatus BIT,
 @specialprice DECIMAL(10,2),
-@description VARCHAR(300)
+@description VARCHAR(300),
+@imageurl VARCHAR(100)
 AS
 INSERT INTO bst_book
 (
@@ -128,7 +130,8 @@ bok_categoryid,
 bok_price,
 bok_specialpricestatus,
 bok_specialprice,
-bok_description
+bok_description,
+bok_imageurl
 )
 VALUES
 (
@@ -138,7 +141,8 @@ VALUES
 @price,
 @specialpricestatus,
 @specialprice,
-@description
+@description,
+@imageurl
 );
 GO
 
@@ -156,7 +160,8 @@ bst_category.cat_name as [Category Name],
 bok_price as [Book Price],
 bok_specialpricestatus as [Book Special Price Status],
 bok_specialprice as [Book Special Price],
-bok_description as [Book Description]
+bok_description as [Book Description],
+bok_imageurl as [Book Image Url]
 FROM bst_book
 JOIN bst_category
 ON bst_category.cat_id = bst_book.bok_categoryid
@@ -177,7 +182,8 @@ bst_category.cat_name as [Category Name],
 bok_price as [Book Price],
 bok_specialpricestatus as [Book Special Price Status],
 bok_specialprice as [Book Special Price],
-bok_description as [Book Description]
+bok_description as [Book Description],
+bok_imageurl as [Book Image Url]
 FROM bst_book
 JOIN bst_category
 ON bst_book.bok_categoryid = bst_category.cat_id
@@ -220,7 +226,8 @@ bok_categoryid as [Category Id],
 bst_category.cat_name as [Category Name],
 bok_specialprice as [Book Special Price],
 bok_specialpricestatus as [Special Price Status],
-bok_description as [Book Description]
+bok_description as [Book Description],
+bok_imageurl as [Book Image Url]
 FROM bst_book
 JOIN bst_category
 ON bst_category.cat_id = bst_book.bok_categoryid
@@ -231,7 +238,7 @@ exec procBookByIdDetailsSelect 3;
 /*-------------------UPDATE------------*/
 
 GO
-CREATE PROCEDURE procBookUpdate
+ALTER PROCEDURE procBookUpdate
 @id INT,
 @title VARCHAR(50),
 @author VARCHAR(50),
@@ -239,7 +246,8 @@ CREATE PROCEDURE procBookUpdate
 @price DECIMAL(10,2),
 @specialpricestatus BIT,
 @specialprice DECIMAL(10,2),
-@description VARCHAR(300)
+@description VARCHAR(300),
+@imageurl VARCHAR(200)
 
 AS
 UPDATE bst_book
@@ -249,7 +257,8 @@ bok_categoryid = @categoryid,
 bok_price = @price,
 bok_specialpricestatus = @specialpricestatus,
 bok_specialprice = @specialprice,
-bok_description = @description
+bok_description = @description,
+bok_imageurl = @imageurl
 WHERE bok_id = @id;
 GO
 

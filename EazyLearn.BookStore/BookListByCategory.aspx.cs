@@ -1,6 +1,7 @@
 ﻿using EazyLearn.BookStore.Components;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,9 +19,18 @@ namespace EazyLearn.BookStore
             if (!IsPostBack)
             {
                 Book objBook = new Book();
-
-                gvBookListByCategoryId.DataSource = objBook.GetAllBookDetailsGivenCategoryId(categoryId);
+                DataTable dtBook = objBook.GetAllBookDetailsGivenCategoryId(categoryId);
+                gvBookListByCategoryId.DataSource = dtBook;
                 gvBookListByCategoryId.DataBind();
+                if (dtBook!=null && dtBook.Rows.Count > 0)
+                {
+
+
+                    lblCategoryName.Text = dtBook.Rows[0]["Category Name"].ToString() + " Books";
+                    lblCategoryName.Style.Add("font-size", "30px");
+                    lblCategoryName.Style.Add("font-weight", "bold");
+                }
+
             }
         }
 

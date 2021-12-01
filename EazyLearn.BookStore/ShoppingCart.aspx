@@ -1,9 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Layout/UserInnerPage.Master" AutoEventWireup="true" CodeBehind="ShoppingCart.aspx.cs" Inherits="EazyLearn.BookStore.ShoppingCart" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<h1>Shopping Cart</h1>
-	<p>Order No.</p>
-	<asp:Label ID="lblOrderId" runat="server" Text=""></asp:Label>
-	<asp:GridView ID="gvCart" runat="server" AutoGenerateColumns="False" OnRowDataBound="gvCart_RowDataBound" 
+	<label>Order No. </label>
+	<asp:Label ID="lblOrderId" runat="server" Text="" Font-Bold></asp:Label>
+	<asp:GridView ID="gvCart" runat="server" AutoGenerateColumns="False" OnRowDataBound="gvCart_RowDataBound"
 		OnSelectedIndexChanged="gvCart_SelectedIndexChanged" OnRowDeleting="gvCart_RowDeleting" OnRowCommand="gvCart_RowCommand"
 		CellPadding="10" ShowFooter="True">
 		<Columns>
@@ -30,6 +31,10 @@
 					<asp:DropDownList ID="ddlQuantity" runat="server" AutoPostBack="true" Width="60px" OnSelectedIndexChanged="gvCart_SelectedIndexChanged">
 					</asp:DropDownList>
 				</ItemTemplate>
+			
+				<FooterTemplate>
+					<label>Shipping</label><br /><p>-----------</p><label>Total</label>
+				</FooterTemplate>
 			</asp:TemplateField>
 			<asp:TemplateField HeaderText="Total">
 				<EditItemTemplate>
@@ -38,25 +43,30 @@
 				<ItemTemplate>
 					<asp:Label ID="Label1" runat="server" Text='<%# Bind("[Total Amount]") %>'></asp:Label>
 				</ItemTemplate>
+			
 				<FooterTemplate>
-					<asp:TextBox ID="txtBillAmount" runat="server" ReadOnly="true" Text="0"></asp:TextBox>
+					<asp:TextBox ID="txtShipping" runat="server" ReadOnly="true" Text="" Width="50"></asp:TextBox><br />
+					<asp:TextBox ID="txtBillAmount" runat="server" ReadOnly="true" Text="0" Width="100"></asp:TextBox>
+
 				</FooterTemplate>
 			</asp:TemplateField>
 			<asp:TemplateField>
 				<ItemTemplate>
-						<asp:LinkButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to delete this book?');" CausesValidation="False" CommandArgument='<%# Eval("[Book Id]") %>' CommandName="Delete" Text="Delete"></asp:LinkButton>
+					<asp:LinkButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to delete this book?');" CausesValidation="False" CommandArgument='<%# Eval("[Book Id]") %>' CommandName="Delete" Text="Delete"></asp:LinkButton>
 
 				</ItemTemplate>
 				<FooterTemplate>
-	<asp:Button ID="btnCheckout" runat="server" Text="Proceed to checkout" OnClientClick="return confirm('Are you sure you want to proceed to checkout?');" OnClick="btnCheckout_Click" />
+					<asp:Button ID="btnCheckout" runat="server" Text="Checkout"
+						OnClientClick="return confirm('Are you sure you want to proceed to checkout?');"
+						OnClick="btnCheckout_Click" Width="120" />
 
 				</FooterTemplate>
 			</asp:TemplateField>
-  		</Columns>
+		</Columns>
 		<EmptyDataTemplate>
 			No items in cart
 		</EmptyDataTemplate>
-		
+
 		<HeaderStyle BackColor="#92B700" ForeColor="White" />
 	</asp:GridView>
 </asp:Content>

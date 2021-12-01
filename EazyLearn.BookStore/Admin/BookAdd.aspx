@@ -46,6 +46,11 @@
 					Description :
 				</label>
 				<textarea id="txtDescription" runat="server"></textarea>
+			</li><li>
+				<label>
+					Cover Page URL :
+				</label>
+				<textarea id="txtImageUrl" runat="server"></textarea>
 			</li>
 			<li>
 				<label></label>

@@ -47,6 +47,7 @@ namespace EazyLearn.BookStore.Admin
             txtPrice.Value = dt.Rows[0]["Book Price"].ToString();
             txtSpecialPrice.Value = dt.Rows[0]["Book Special Price"].ToString();
             txtDescription.Value = dt.Rows[0]["Book Description"].ToString();
+            txtImageUrl.Value = dt.Rows[0]["Book Image Url"].ToString();
 
             // Special Price Status drop down list initial values
             List<string> specialPriceStatus = new List<string> { "Yes", "No" };
@@ -100,10 +101,16 @@ namespace EazyLearn.BookStore.Admin
                 ShowMessage("*Enter Description");
                 return;
             }
+            else if (Check(txtImageUrl.Value))
+            {
+                ShowMessage("*Enter Image Url");
+                return;
+            }
             else
             {
                 Book objBook = new Book();
                 objBook.Title = txtTitle.Value;
+                objBook.ImageUrl = txtImageUrl.Value;
                 objBook.Author = txtAuthor.Value;
                 objBook.CategoryId = Convert.ToInt32(ddlCategory.SelectedValue);
                 objBook.Price = Convert.ToDouble(txtPrice.Value);
