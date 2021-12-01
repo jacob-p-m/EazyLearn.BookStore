@@ -497,6 +497,14 @@ INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
 VALUES ('1234123412341234', '01', '01', '111')
 
 
+INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
+VALUES ('1111111111111111', '01', '01', '111')
+
+
+INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
+VALUES ('1111111111111111', '01', '21', '111')
+
+
 GO
 CREATE PROCEDURE procCreditCardValidation
 @cardnumber CHAR(16), @month CHAR(2), @year CHAR(2), @cvv CHAR(3)
@@ -517,3 +525,18 @@ select * from bst_order
 select * from bst_orderdetails
 
 select * from bst_cart
+
+INSERT INTO bst_order(ord_useremail)
+VALUES('jacob@yahoo.com');
+
+
+INSERT INTO bst_order(ord_useremail)
+VALUES('thomas@yahoo.com');
+
+
+INSERT INTO bst_order(ord_useremail)
+VALUES('annie@yahoo.com');
+
+
+INSERT INTO bst_order(ord_useremail)
+VALUES('jacob@gmail.com');

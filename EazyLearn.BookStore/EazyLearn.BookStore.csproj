@@ -150,7 +150,6 @@
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Login.aspx" />
     <Content Include="OrderConfirmation.aspx" />
-    <Content Include="OrderItems.aspx" />
     <Content Include="PaymentDetails.aspx" />
     <Content Include="Registration.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -335,13 +334,6 @@
     </Compile>
     <Compile Include="OrderConfirmation.aspx.designer.cs">
       <DependentUpon>OrderConfirmation.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="OrderItems.aspx.cs">
-      <DependentUpon>OrderItems.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="OrderItems.aspx.designer.cs">
-      <DependentUpon>OrderItems.aspx</DependentUpon>
     </Compile>
     <Compile Include="PaymentDetails.aspx.cs">
       <DependentUpon>PaymentDetails.aspx</DependentUpon>

@@ -15,15 +15,11 @@ namespace EazyLearn.BookStore
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //convert order details datatable to string format
+            Fill();
 
-            string userEmail = Session["UserEmail"].ToString();
             Order objOrder = new Order();
+            string userEmail = Session["UserEmail"].ToString();
             int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
-
-            OrderDetails objOdd = new OrderDetails();
-            DataTable dtOrderDetails = objOdd.GetOrderDetailsGivenOrderId(orderId);
-            string orderString = string.Join(Environment.NewLine, dtOrderDetails.Rows.OfType<DataRow>().Select(x => string.Join(" ; ", x.ItemArray)));
 
             //delete order details
             objOrder.DeleteOrderDetails(orderId);
@@ -33,7 +29,25 @@ namespace EazyLearn.BookStore
             objOrder.InsertOrderDetails();
 
             //Send Mail 
-            SendEmail(orderString, userEmail);
+            //SendEmail(orderString, userEmail);
+        }
+
+        void Fill()
+        {
+            string userEmail = Session["UserEmail"].ToString();
+            Order objOrder = new Order();
+            int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+            OrderDetails objOdd = new OrderDetails();
+            DataTable dtOrderDetails = objOdd.GetOrderDetailsGivenOrderId(orderId);
+            double billAmount = Convert.ToDouble(dtOrderDetails.Rows[0]["Bill Amount"]);
+            gvOrderDetails.DataSource = dtOrderDetails;
+            gvOrderDetails.DataBind();
+
+            if (gvOrderDetails.Rows.Count > 0)
+            {
+                //show bill amount
+                (gvOrderDetails.FooterRow.FindControl("txtBillAmount") as TextBox).Text = billAmount.ToString();
+            }
         }
 
         //Function to send email
