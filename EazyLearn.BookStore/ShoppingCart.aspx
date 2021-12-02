@@ -45,7 +45,7 @@
 				</ItemTemplate>
 			
 				<FooterTemplate>
-					<asp:TextBox ID="txtShipping" runat="server" ReadOnly="true" Text="" Width="50"></asp:TextBox><br />
+					<asp:TextBox ID="txtShippingAmount" runat="server" ReadOnly="true" Text="" Width="50"></asp:TextBox><br />
 					<asp:TextBox ID="txtBillAmount" runat="server" ReadOnly="true" Text="0" Width="100"></asp:TextBox>
 
 				</FooterTemplate>

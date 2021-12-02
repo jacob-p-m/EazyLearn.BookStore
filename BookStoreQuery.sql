@@ -112,7 +112,7 @@ GO
 /*-------BOOK INSERT-------*/
 
 GO
-alter PROCEDURE procBookInsert
+CREATE PROCEDURE procBookInsert
 @title VARCHAR(50),
 @author VARCHAR(50),
 @categoryid INT,
@@ -378,6 +378,15 @@ SET crt_isdeleted = 1
 WHERE crt_bookid = @bookid AND crt_orderid = @orderid;
 GO
 
+GO
+CREATE PROCEDURE procCartByOrderIdDelete
+@orderid INT
+AS
+DELETE 
+FROM bst_cart
+WHERE crt_id = @orderid;
+GO
+
 /*---------UPDATE----------------*/
 GO
 CREATE PROCEDURE procCartUpdate
@@ -481,13 +490,15 @@ CREATE PROCEDURE procOrderDetailsSelect
 AS
 SELECT 
 odd_bookid as [Book Id],
+bok_title as [Book Title],
 odd_orderid as [Order Id],
 odd_quantity as [Quantity],
 odd_totalamount as [Total Amount],
 odd_unitprice as [Unit Price],
 odd_billamount as [Bill Amount]
 FROM bst_orderdetails
-WHERE odd_orderid = @orderid AND odd_isdeleted = 0;
+JOIN bst_book ON odd_bookid = bok_id
+WHERE odd_orderid = @orderid AND odd_isdeleted = 0 AND bok_isdeleted = 0;
 GO
  
 
@@ -524,6 +535,17 @@ FROM bst_creditcarddata
 WHERE ccd_cardnumber = @cardnumber AND ccd_month = @month AND ccd_year = @year AND ccd_cvv = @cvv AND ccd_isdeleted =0;
 GO
 
+/*---------update bill amount-------*/
+GO
+CREATE PROCEDURE procCartBillUpdate
+@orderid INT, @bill DECIMAL(10,2)
+AS
+BEGIN
+UPDATE bst_cart
+SET crt_billamount += @bill
+WHERE crt_orderid = @orderid AND crt_isdeleted = 0;
+END
+GO
 
 truncate table bst_cart
 truncate table bst_order
@@ -535,6 +557,9 @@ select * from bst_orderdetails
 
 select * from bst_cart
 
+SELECT * FROM bst_customer
+
+SELECT * FROM bst_admin
 INSERT INTO bst_order(ord_useremail)
 VALUES('jacob@yahoo.com');
 

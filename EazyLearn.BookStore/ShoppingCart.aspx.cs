@@ -12,6 +12,7 @@ namespace EazyLearn.BookStore
     public partial class ShoppingCart : System.Web.UI.Page
     {
         double billAmount;
+        double shippingAmount = 2;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,6 +34,7 @@ namespace EazyLearn.BookStore
             {
                 int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
 
+                
                 ////if cart is empty return
                 //DataTable dtCart = objCart.GetCartDetailsGivenOrderId(orderId);
                 //if (dtCart == null || dtCart.Rows.Count <= 0)
@@ -46,9 +48,17 @@ namespace EazyLearn.BookStore
 
                 if (gvCart.Rows.Count > 0)
                 {
+                    //show shipping charges
+                    (gvCart.FooterRow.FindControl("txtShippingAmount") as TextBox).Text = shippingAmount.ToString();
+                    //adding shipping charges to bill amount
+                   
+                    objCart.UpdateCartBill(orderId, shippingAmount);
+
                     //show bill amount
                     (gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text = objCart.GetBillAmountCart(orderId).Rows[0].ItemArray[0].ToString() ?? "0";
                     billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
+                    
+             
                 }
             }
             else

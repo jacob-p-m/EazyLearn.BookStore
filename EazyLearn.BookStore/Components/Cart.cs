@@ -304,6 +304,47 @@ namespace EazyLearn.BookStore.Components
             }
             return numberOfRowsAffected;
         }
+
+        /// <summary>
+        /// update bill cart to add shipping charges
+        /// </summary>
+        /// <param name="orderid"></param>
+        /// <param name="bill"></param>
+        /// <returns>int - number of rows updated</returns>
+        public int UpdateCartBill( int orderid, double bill)
+        {
+            int numberOfRowsAffected;
+
+            string insertQuery = "procCartBillUpdate";
+
+            SqlConnection connectionObj = null;
+            SqlCommand cmd = null;
+
+            try
+            {
+                connectionObj = DatabaseConnection.GetDatbaseConnection();
+                connectionObj.Open();
+
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@orderid", SqlDbType.Int).Value = orderid;
+                cmd.Parameters.Add("@bill", SqlDbType.Decimal).Value = bill;
+
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                connectionObj.Close();
+            }
+            return numberOfRowsAffected;
+        }
         #endregion
 
         #region Delete Methods
