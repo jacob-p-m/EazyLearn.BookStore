@@ -1,18 +1,20 @@
 ﻿using EazyLearn.BookStore.Components;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml;
 
 namespace EazyLearn.BookStore
 {
     public partial class ShoppingCart : System.Web.UI.Page
     {
         double billAmount;
-        double shippingAmount = 2;
+        double shippingCharge;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -48,15 +50,20 @@ namespace EazyLearn.BookStore
 
                 if (gvCart.Rows.Count > 0)
                 {
-                    //show shipping charges
-                    (gvCart.FooterRow.FindControl("txtShippingAmount") as TextBox).Text = shippingAmount.ToString();
-                    //adding shipping charges to bill amount
-                   
-                    objCart.UpdateCartBill(orderId, shippingAmount);
+                    //get shipping charge percent
+                    shippingCharge = Convert.ToDouble(ConfigurationManager.AppSettings["shippingCharge"]);
 
+                    //show shipping charges
+                    (gvCart.FooterRow.FindControl("txtShippingAmount") as TextBox).Text = shippingCharge.ToString();
+                    
+                    //calculate bill amount
+                    billAmount = Convert.ToDouble(objCart.CalculateBillAmountCart(orderId).Rows[0].ItemArray[0]);
+                    //add shipping charges
+                    billAmount += shippingCharge;
+                    //update bill amount
+                    objCart.UpdateCartBill(orderId, billAmount);
                     //show bill amount
-                    (gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text = objCart.GetBillAmountCart(orderId).Rows[0].ItemArray[0].ToString() ?? "0";
-                    billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
+                    (gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text = billAmount.ToString() ;
                     
              
                 }
@@ -163,8 +170,9 @@ namespace EazyLearn.BookStore
 
             objOrder.OrderDate = currentDate; 
             objOrder.OrderId = orderId;
-            billAmount = Convert.ToDouble((gvCart.FooterRow.FindControl("txtBillAmount") as TextBox).Text);
 
+            Cart objCart = new Cart();
+            billAmount = Convert.ToDouble(objCart.GetCartDetailsGivenOrderId(orderId).Rows[0]["Bill Amount"]);
             objOrder.Amount = billAmount;
             objOrder.UpdateOrderDetails();
 

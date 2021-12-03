@@ -537,12 +537,12 @@ GO
 
 /*---------update bill amount-------*/
 GO
-CREATE PROCEDURE procCartBillUpdate
+alter PROCEDURE procCartBillUpdate
 @orderid INT, @bill DECIMAL(10,2)
 AS
 BEGIN
 UPDATE bst_cart
-SET crt_billamount += @bill
+SET crt_billamount = @bill
 WHERE crt_orderid = @orderid AND crt_isdeleted = 0;
 END
 GO

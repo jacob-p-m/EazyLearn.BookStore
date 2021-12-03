@@ -15,21 +15,25 @@ namespace EazyLearn.BookStore
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Fill();
+            if (!IsPostBack)
+            {
+                Fill();
 
-            Order objOrder = new Order();
-            string userEmail = Session["UserEmail"].ToString();
-            int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
+                Order objOrder = new Order();
+                string userEmail = Session["UserEmail"].ToString();
+                int orderId = Convert.ToInt32(objOrder.GetOrderDetailsGivenUserEmail(userEmail).Rows[0]["Order Id"]);
 
-            //delete order details
-            objOrder.DeleteOrderDetails(orderId);
+                //delete order details
+                objOrder.DeleteOrderDetails(orderId);
 
-            //creating new order number for the user
-            objOrder.UserEmail = userEmail;
-            objOrder.InsertOrderDetails();
+                //creating new order number for the user
+                objOrder.UserEmail = userEmail;
+                objOrder.InsertOrderDetails();
 
-            //Send Mail 
-            //SendEmail(orderString, userEmail);
+                //Send Mail 
+                //SendEmail(orderString, userEmail);
+            }
+
         }
 
         void Fill()

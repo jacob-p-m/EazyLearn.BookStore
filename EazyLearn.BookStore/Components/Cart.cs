@@ -191,7 +191,7 @@ namespace EazyLearn.BookStore.Components
         /// </summary>
         /// <param name="userEmail"></param>
         /// <returns>DataTable - total amount</returns>
-        public DataTable GetBillAmountCart(int orderid)
+        public DataTable CalculateBillAmountCart(int orderid)
         {
             SqlDataAdapter da = new SqlDataAdapter();
 
