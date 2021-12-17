@@ -2,9 +2,15 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<p>Order No. </p>
-	<asp:Label ID="lblOrderId" runat="server" Text=""></asp:Label>
+	<asp:Label ID="lblOrderId" runat="server" Text="" Font-Bold></asp:Label>	
 
-	<h2>Credit Card Details</h2>
+	<p>Order Total </p>
+	<asp:Label ID="lblOrderTotal" runat="server" Text="" Font-Bold></asp:Label>
+
+	<h3>Credit Card Details</h3>
+
+	<p>Card Type</p>
+	<asp:DropDownList ID="ddlCardType" runat="server"></asp:DropDownList>
 
 	<p>Card Number</p>
 	<asp:TextBox ID="txtCardNumber" runat="server"></asp:TextBox>

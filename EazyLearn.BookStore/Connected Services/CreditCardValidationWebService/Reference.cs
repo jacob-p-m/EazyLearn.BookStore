@@ -15,7 +15,7 @@ namespace EazyLearn.BookStore.CreditCardValidationWebService {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://creditcardvalidation.com/", ConfigurationName="CreditCardValidationWebService.CreditCardValidationSoap")]
     public interface CreditCardValidationSoap {
         
-        // CODEGEN: Generating message contract since element name cardnumber from namespace http://creditcardvalidation.com/ is not marked nillable
+        // CODEGEN: Generating message contract since element name cardtype from namespace http://creditcardvalidation.com/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://creditcardvalidation.com/ValidateCreditCard", ReplyAction="*")]
         EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardResponse ValidateCreditCard(EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequest request);
         
@@ -47,21 +47,25 @@ namespace EazyLearn.BookStore.CreditCardValidationWebService {
     public partial class ValidateCreditCardRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string cardnumber;
+        public string cardtype;
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
-        public string month;
+        public string cardnumber;
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
-        public string year;
+        public string month;
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string year;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
         public string cvv;
         
         public ValidateCreditCardRequestBody() {
         }
         
-        public ValidateCreditCardRequestBody(string cardnumber, string month, string year, string cvv) {
+        public ValidateCreditCardRequestBody(string cardtype, string cardnumber, string month, string year, string cvv) {
+            this.cardtype = cardtype;
             this.cardnumber = cardnumber;
             this.month = month;
             this.year = year;
@@ -135,9 +139,10 @@ namespace EazyLearn.BookStore.CreditCardValidationWebService {
             return base.Channel.ValidateCreditCard(request);
         }
         
-        public bool ValidateCreditCard(string cardnumber, string month, string year, string cvv) {
+        public bool ValidateCreditCard(string cardtype, string cardnumber, string month, string year, string cvv) {
             EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequest inValue = new EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequest();
             inValue.Body = new EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequestBody();
+            inValue.Body.cardtype = cardtype;
             inValue.Body.cardnumber = cardnumber;
             inValue.Body.month = month;
             inValue.Body.year = year;
@@ -151,9 +156,10 @@ namespace EazyLearn.BookStore.CreditCardValidationWebService {
             return base.Channel.ValidateCreditCardAsync(request);
         }
         
-        public System.Threading.Tasks.Task<EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardResponse> ValidateCreditCardAsync(string cardnumber, string month, string year, string cvv) {
+        public System.Threading.Tasks.Task<EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardResponse> ValidateCreditCardAsync(string cardtype, string cardnumber, string month, string year, string cvv) {
             EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequest inValue = new EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequest();
             inValue.Body = new EazyLearn.BookStore.CreditCardValidationWebService.ValidateCreditCardRequestBody();
+            inValue.Body.cardtype = cardtype;
             inValue.Body.cardnumber = cardnumber;
             inValue.Body.month = month;
             inValue.Body.year = year;

@@ -1,6 +1,7 @@
 ﻿using EazyLearn.BookStore.Components;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -46,9 +47,15 @@ namespace EazyLearn.BookStore
             double billAmount = Convert.ToDouble(dtOrderDetails.Rows[0]["Bill Amount"]);
             gvOrderDetails.DataSource = dtOrderDetails;
             gvOrderDetails.DataBind();
-
+            
             if (gvOrderDetails.Rows.Count > 0)
             {
+                //get shipping charge percent
+                double shippingCharge;
+                shippingCharge = Convert.ToDouble(ConfigurationManager.AppSettings["shippingCharge"]);
+
+                //show shipping charges
+                (gvOrderDetails.FooterRow.FindControl("txtShippingAmount") as TextBox).Text = shippingCharge.ToString();
                 //show bill amount
                 (gvOrderDetails.FooterRow.FindControl("txtBillAmount") as TextBox).Text = billAmount.ToString();
             }
@@ -70,6 +77,16 @@ namespace EazyLearn.BookStore
 
             smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);
+        }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnShopping_Click(object sender, EventArgs e)
+        {
+            Server.Transfer("~/Home.aspx");
         }
     }
 }

@@ -505,34 +505,34 @@ GO
 /*-------------CREDIT CARD DATABASE----------*/
 CREATE TABLE bst_creditcarddata
 (
-ccd_id INT NOT NULL IDENTITY(1,1),
+ccd_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 ccd_cardnumber CHAR(16) NOT NULL,
+ccd_cardtype VARCHAR(20) NOT NULL,
 ccd_month CHAR(2) NOT NULL,
 ccd_year CHAR(2) NOT NULL,
 ccd_cvv CHAR(3) NOT NULL,
 ccd_isdeleted BIT NOT NULL DEFAULT 0
 );
 
-INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
-VALUES ('1234123412341234', '01', '01', '111')
+INSERT INTO bst_creditcarddata (ccd_cardtype, ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
+VALUES ('Master', '1111111111111111', '01', '21', '111')
 
 
-INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
-VALUES ('1111111111111111', '01', '01', '111')
+INSERT INTO bst_creditcarddata (ccd_cardtype, ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
+VALUES ('Visa', '2222222222222222', '02', '22', '222')
 
 
-INSERT INTO bst_creditcarddata (ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
-VALUES ('1111111111111111', '01', '21', '111')
-
+INSERT INTO bst_creditcarddata (ccd_cardtype, ccd_cardnumber, ccd_month, ccd_year, ccd_cvv)
+VALUES ('RuPay', '3333333333333333', '03', '23', '333')
 
 GO
-CREATE PROCEDURE procCreditCardValidation
-@cardnumber CHAR(16), @month CHAR(2), @year CHAR(2), @cvv CHAR(3)
+alter PROCEDURE procCreditCardValidation
+@cardtype VARCHAR(20), @cardnumber CHAR(16), @month CHAR(2), @year CHAR(2), @cvv CHAR(3)
 AS
 SELECT
 ccd_id AS [Card Id]
 FROM bst_creditcarddata
-WHERE ccd_cardnumber = @cardnumber AND ccd_month = @month AND ccd_year = @year AND ccd_cvv = @cvv AND ccd_isdeleted =0;
+WHERE ccd_cardtype = @cardtype AND ccd_cardnumber = @cardnumber AND ccd_month = @month AND ccd_year = @year AND ccd_cvv = @cvv AND ccd_isdeleted =0;
 GO
 
 /*---------update bill amount-------*/
@@ -547,9 +547,12 @@ WHERE crt_orderid = @orderid AND crt_isdeleted = 0;
 END
 GO
 
+/*---------TRUNCATE !!!!!!!!!!!!!--------*/
 truncate table bst_cart
 truncate table bst_order
 truncate table bst_orderdetails
+/*---------TRUNCATE !!!!!!!!!!!!!--------*/
+
 
 select * from bst_order
 
@@ -560,6 +563,7 @@ select * from bst_cart
 SELECT * FROM bst_customer
 
 SELECT * FROM bst_admin
+
 INSERT INTO bst_order(ord_useremail)
 VALUES('jacob@yahoo.com');
 
@@ -574,3 +578,32 @@ VALUES('annie@yahoo.com');
 
 INSERT INTO bst_order(ord_useremail)
 VALUES('jacob@gmail.com');
+
+CREATE TABLE bst_payment
+(
+pay_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+pay_useremail VARCHAR(50) NOT NULL,
+pay_cardnumber CHAR(16) NOT NULL,
+pay_cardtype VARCHAR(20) NOT NULL,
+pay_month CHAR(2) NOT NULL,
+pay_year CHAR(2) NOT NULL,
+pay_isdeleted BIT NOT NULL DEFAULT 0
+);
+
+GO
+CREATE PROCEDURE procPaymentInsert
+@useremail VARCHAR(50), @cardnumber CHAR(16), @cardtype VARCHAR(20), @month CHAR(2), @year CHAR(2)
+AS
+INSERT INTO bst_payment(pay_useremail, pay_cardnumber, pay_cardtype, pay_month, pay_year)
+VALUES (@useremail, @cardnumber, @cardtype, @month, @year)
+GO
+
+CREATE PROCEDURE procPaymentGetCardNumberGivenUserEmail
+@useremail VARCHAR(50)
+AS
+SELECT pay_cardnumber as [Card Number]
+FROM bst_payment
+WHERE pay_isdeleted = 0 AND pay_useremail = @useremail;
+GO
+
+select * from bst_payment

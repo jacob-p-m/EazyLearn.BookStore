@@ -14,7 +14,7 @@
 						<asp:Label ID="Label2" runat="server" Text='<%# Bind("[Unit Price]") %>'></asp:Label>
 					</ItemTemplate>
 					<FooterTemplate>
-						Total
+					<label>Shipping</label><br /><p>-----------</p><label>Total</label>
 					</FooterTemplate>
 				</asp:TemplateField>
 				<asp:TemplateField HeaderText="Total">
@@ -25,7 +25,8 @@
 						<asp:Label ID="Label1" runat="server" Text='<%# Bind("[Total Amount]") %>'></asp:Label>
 					</ItemTemplate>
 					<FooterTemplate>
-						<asp:TextBox ID="txtBillAmount" runat="server" Text="" Width="100" ReadOnly="true" ></asp:TextBox>
+					<asp:TextBox ID="txtShippingAmount" runat="server" ReadOnly="true" Text="" Width="50" BorderStyle="None"></asp:TextBox><br />
+						<asp:TextBox ID="txtBillAmount" runat="server" Text="" Width="100" ReadOnly="true" BorderStyle="None"></asp:TextBox>
 					</FooterTemplate>
 				</asp:TemplateField>
 			</Columns>
@@ -35,4 +36,5 @@
 			
 		<HeaderStyle BackColor="#4287f5" ForeColor="White" />
 		</asp:GridView>
+	<asp:Button ID="btnShopping" runat="server" Text="Continue Shopping" onClick ="btnShopping_Click"/>
 </asp:Content>

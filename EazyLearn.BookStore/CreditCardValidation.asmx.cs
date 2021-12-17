@@ -21,7 +21,7 @@ namespace EazyLearn.BookStore
     {
 
         [WebMethod]
-        public bool ValidateCreditCard(string cardnumber, string month, string year, string cvv)
+        public bool ValidateCreditCard(string cardtype, string cardnumber, string month, string year, string cvv)
         {
             SqlDataAdapter da = new SqlDataAdapter();
 
@@ -38,6 +38,7 @@ namespace EazyLearn.BookStore
                 cmd.Parameters.Add(new SqlParameter("@month", month));
                 cmd.Parameters.Add(new SqlParameter("@year", year));
                 cmd.Parameters.Add(new SqlParameter("@cvv", cvv));
+                cmd.Parameters.Add(new SqlParameter("@cardtype", cardtype));
                 cmd.CommandType = CommandType.StoredProcedure;
                 da.SelectCommand = cmd;
                 da.Fill(dt);

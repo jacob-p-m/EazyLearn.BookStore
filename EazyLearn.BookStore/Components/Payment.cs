@@ -21,6 +21,7 @@
 using EazyLearn.BookStore.Components;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -34,9 +35,9 @@ namespace EazyLearn.BookStore.Components
         #region Public Properties
 
         /// <summary>
-        /// gets or sets the customer id
+        /// gets or sets the customer email
         /// </summary>
-        public int CustomerId
+        public string UserEmail
         {
             get;
             set;
@@ -94,35 +95,34 @@ namespace EazyLearn.BookStore.Components
         #region Insert Methods
 
         /// <summary>
-        /// inserts the payment details like customer id, credit card number, card type, expiry month and year, is deleted
+        /// insert payment details of a customer into the database
         /// </summary>
         /// <returns>int - number of rows affected</returns>
-        public int InsertOrderDetails()
+        public int InsertPaymentDetails()
         {
             int numberOfRowsAffected;
 
-            string insertQuery = "insert into bst_payment (pay_customerid, pay_creditcardnumber, pay_creditcardtype, pay_month, " +
-                " pay_year, pay_isdeleted) " +
-                " values (@customerid, @creditcardnumber, @creditcardtype, @month, @year, @isdeleted); ";
+            string insertQuery = "procPaymentInsert";
 
             SqlConnection connectionObj = null;
-            SqlCommand cmdInsertPaymentDetails = null;
+            SqlCommand cmd = null;
 
             try
             {
                 connectionObj = DatabaseConnection.GetDatbaseConnection();
                 connectionObj.Open();
 
-                cmdInsertPaymentDetails = new SqlCommand(insertQuery, connectionObj);
+                cmd = new SqlCommand(insertQuery, connectionObj);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmdInsertPaymentDetails.Parameters.AddWithValue("@customerid", this.CustomerId);
-                cmdInsertPaymentDetails.Parameters.AddWithValue("@creditcardnumber", this.CreditCardNumber);
-                cmdInsertPaymentDetails.Parameters.AddWithValue("@creditcardtype", this.CreditCardType);
-                cmdInsertPaymentDetails.Parameters.AddWithValue("@month", this.Month);
-                cmdInsertPaymentDetails.Parameters.AddWithValue("@year", this.Year);
-                cmdInsertPaymentDetails.Parameters.AddWithValue("@isdeleted", this.IsDeleted);
+                cmd.Parameters.Add("@useremail", SqlDbType.VarChar).Value = this.UserEmail;
+                cmd.Parameters.Add("@cardnumber", SqlDbType.Char).Value = this.CreditCardNumber;
+                cmd.Parameters.Add("@cardtype", SqlDbType.VarChar).Value = this.CreditCardType;
+                cmd.Parameters.Add("@month", SqlDbType.Char).Value = this.Month;
+                cmd.Parameters.Add("@year", SqlDbType.Char).Value = this.Year;
 
-                numberOfRowsAffected = cmdInsertPaymentDetails.ExecuteNonQuery();
+
+                numberOfRowsAffected = cmd.ExecuteNonQuery();
             }
             catch (SqlException ex)
             {
@@ -135,6 +135,47 @@ namespace EazyLearn.BookStore.Components
             }
             return numberOfRowsAffected;
         }
+
+        #endregion
+
+        #region List Methods
+
+        /// <summary>
+        /// gets card number given useremail
+        /// </summary>
+        /// <param name="useremail"></param>
+        /// <returns>dataTable - card number only</returns>
+        public DataTable GetCardNumberGivenUserEmail(string useremail)
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+
+
+            SqlConnection sqlConnection = null;
+            DataTable dt = new DataTable();
+            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                sqlConnection = DatabaseConnection.GetDatbaseConnection();
+                sqlConnection.Open();
+
+                cmd = new SqlCommand("procPaymentGetCardNumberGivenUserEmail", sqlConnection);
+                cmd.Parameters.Add(new SqlParameter("@useremail", useremail));
+                cmd.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+            return dt;
+        }
+
         #endregion
         #endregion
     }
